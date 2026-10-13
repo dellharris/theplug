@@ -7,16 +7,19 @@
   <meta name="description" content="Post. Get seen. Get paid. THE PLUG is coming. Pull up to the info session, Wednesday October 14 at 9 PM ET on the Idu House Discord.">
   <meta property="og:title" content="THE PLUG | Idu House">
   <meta property="og:description" content="Post. Get seen. Get paid. Info session Wednesday October 14, 9 PM ET.">
-  <meta property="og:image" content="plug-hero.jpg">
+  <meta property="og:image" content="plug-hero.jpg?v=2">
+  <link rel="preload" as="image" href="plug-hero.jpg?v=2">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
 
+    :root { --orange: #FF5C1A; --bg: #080808; }
+
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #080808;
+      background: var(--bg);
       color: #fff;
       line-height: 1.6;
       overflow-x: hidden;
@@ -24,175 +27,226 @@
 
     .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
 
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 22px 0;
-    }
-
-    .topbar img { height: 56px; width: auto; display: block; }
-
     .btn {
       display: inline-block;
-      background: #FF5C1A;
+      background: var(--orange);
       color: #000;
       font-weight: 800;
       font-size: 12px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       text-decoration: none;
-      padding: 15px 28px;
+      padding: 16px 30px;
       border: 0;
       cursor: pointer;
       font-family: inherit;
+      transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
     }
 
-    .btn:hover { background: #ff7a45; }
+    .btn:hover { background: #ff7a45; transform: translateY(-2px); box-shadow: 0 10px 30px rgba(255, 92, 26, 0.35); }
     .btn:disabled { opacity: 0.6; cursor: wait; }
 
-    .ticker {
-      border-top: 1px solid #1e1e1e;
-      border-bottom: 1px solid #1e1e1e;
+    .btn.ghost { background: rgba(8, 8, 8, 0.35); color: #fff; border: 1px solid rgba(255, 255, 255, 0.35); backdrop-filter: blur(6px); }
+    .btn.ghost:hover { background: rgba(255, 255, 255, 0.12); box-shadow: none; }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
       overflow: hidden;
-      white-space: nowrap;
-      background: #0c0c0c;
+      isolation: isolate;
     }
 
-    .ticker-track {
-      display: inline-block;
-      padding: 10px 0;
-      animation: slide 28s linear infinite;
+    .hero-bg {
+      position: absolute;
+      inset: -4%;
+      z-index: -3;
+      background: #080808 url("plug-hero.jpg?v=2") 62% 38% / cover no-repeat;
+      animation: drift 22s ease-in-out infinite alternate;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        linear-gradient(to top, #080808 0%, rgba(8, 8, 8, 0.92) 14%, rgba(8, 8, 8, 0.2) 52%, rgba(8, 8, 8, 0.55) 100%),
+        linear-gradient(to right, rgba(8, 8, 8, 0.88) 0%, rgba(8, 8, 8, 0.45) 38%, rgba(8, 8, 8, 0) 66%);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background: radial-gradient(ellipse at 85% 18%, rgba(255, 92, 26, 0.22), rgba(255, 92, 26, 0) 45%);
+      mix-blend-mode: screen;
+    }
+
+    @keyframes drift {
+      from { transform: scale(1) translate3d(0, 0, 0); }
+      to { transform: scale(1.08) translate3d(-1.2%, -1%, 0); }
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 0;
+    }
+
+    .topbar img { height: 60px; width: auto; display: block; filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.6)); }
+
+    .hero-content { padding: 40px 24px 72px; }
+
+    .live {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
       font-size: 11px;
       font-weight: 800;
-      letter-spacing: 0.22em;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: #FF5C1A;
+      color: #fff;
+      background: rgba(8, 8, 8, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      padding: 8px 14px;
+      backdrop-filter: blur(6px);
+      margin-bottom: 22px;
     }
 
-    .ticker-track span { margin: 0 18px; }
-    .ticker-track .dim { color: #444; }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--orange);
+      box-shadow: 0 0 0 0 rgba(255, 92, 26, 0.7);
+      animation: pulse 1.8s infinite;
+    }
 
-    @keyframes slide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-
-    .hero {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
-      align-items: center;
-      padding: 48px 0 56px;
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(255, 92, 26, 0.7); }
+      70% { box-shadow: 0 0 0 12px rgba(255, 92, 26, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 92, 26, 0); }
     }
 
     .hero h1 {
-      font-size: clamp(72px, 13vw, 140px);
+      font-size: clamp(80px, 15vw, 190px);
       font-weight: 900;
-      letter-spacing: -0.045em;
-      line-height: 0.85;
+      letter-spacing: -0.05em;
+      line-height: 0.8;
       text-transform: uppercase;
+      text-shadow: 0 8px 50px rgba(0, 0, 0, 0.55);
     }
 
-    .hero h1 em { font-style: normal; color: #FF5C1A; }
+    .hero h1 em { font-style: normal; color: var(--orange); display: block; }
 
-    .kicker {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: #FF5C1A;
-      margin: 26px 0 10px;
+    .tagline {
+      font-size: clamp(22px, 3.2vw, 34px);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin: 30px 0 10px;
+      text-shadow: 0 4px 24px rgba(0, 0, 0, 0.7);
     }
 
-    .tagline { font-size: 22px; font-weight: 700; color: #fff; max-width: 420px; line-height: 1.3; margin-bottom: 8px; }
-    .sub { font-size: 16px; color: #888; max-width: 420px; margin-bottom: 28px; }
+    .sub { font-size: 17px; color: #cfcfcf; max-width: 440px; margin-bottom: 30px; text-shadow: 0 2px 16px rgba(0, 0, 0, 0.8); }
 
-    .art-wrap { position: relative; }
+    .cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
 
-    .art-wrap img {
-      width: 100%;
-      display: block;
-      border: 1px solid #1e1e1e;
-      aspect-ratio: 4 / 3;
-      object-fit: cover;
-      object-position: right center;
-    }
+    .rise { animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+    .d1 { animation-delay: 0.1s; } .d2 { animation-delay: 0.25s; } .d3 { animation-delay: 0.4s; } .d4 { animation-delay: 0.55s; }
+    @keyframes rise { from { opacity: 0; transform: translateY(26px); } }
 
-    .badge {
+    .cue {
       position: absolute;
-      left: -14px;
-      bottom: 22px;
-      background: #FF5C1A;
-      color: #000;
-      font-size: 11px;
-      font-weight: 900;
-      letter-spacing: 0.14em;
+      right: 24px;
+      bottom: 28px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.3em;
       text-transform: uppercase;
-      padding: 9px 14px;
-      transform: rotate(-4deg);
+      color: rgba(255, 255, 255, 0.55);
+      writing-mode: vertical-rl;
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
+    .cue::after { content: ""; width: 1px; height: 54px; background: linear-gradient(to bottom, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0)); }
+
+    /* BELOW THE HERO */
     .teasers {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 0;
       border-top: 1px solid #1a1a1a;
       border-bottom: 1px solid #1a1a1a;
     }
 
     .teaser {
-      padding: 36px 28px;
+      padding: 40px 28px;
       border-right: 1px solid #1a1a1a;
-      font-size: 26px;
-      font-weight: 800;
+      font-size: clamp(22px, 2.6vw, 30px);
+      font-weight: 900;
       letter-spacing: -0.02em;
-      line-height: 1.15;
+      line-height: 1.12;
       text-transform: uppercase;
+      transition: background 0.2s ease;
     }
 
+    .teaser:hover { background: #0e0e0e; }
     .teaser:last-child { border-right: 0; }
-    .teaser small { display: block; font-size: 11px; letter-spacing: 0.16em; color: #FF5C1A; margin-bottom: 12px; font-weight: 800; }
+    .teaser small { display: block; font-size: 11px; letter-spacing: 0.16em; color: var(--orange); margin-bottom: 14px; font-weight: 800; }
 
-    .secret {
-      padding: 56px 0;
-      text-align: center;
-    }
-
-    .secret p { font-size: clamp(22px, 4vw, 34px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.3; text-transform: uppercase; }
+    .secret { padding: 72px 0; text-align: center; }
+    .secret p { font-size: clamp(24px, 4.4vw, 42px); font-weight: 900; letter-spacing: -0.025em; line-height: 1.25; text-transform: uppercase; }
 
     .redact {
-      background: #FF5C1A;
+      background: var(--orange);
       color: #000;
-      padding: 2px 12px;
+      padding: 2px 14px;
       display: inline-block;
-      margin-top: 8px;
+      margin-top: 10px;
       transform: rotate(-1.5deg);
     }
 
-    .secret .small { margin-top: 16px; font-size: 14px; font-weight: 500; letter-spacing: 0.04em; color: #777; text-transform: none; }
+    .secret .small { margin-top: 18px; font-size: 14px; font-weight: 500; letter-spacing: 0.04em; color: #777; text-transform: none; }
 
     .rsvp {
       background: #0d0d0d;
       border: 1px solid #1e1e1e;
-      padding: 44px;
+      padding: 48px;
       margin-bottom: 56px;
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 40px;
       align-items: start;
+      position: relative;
+      overflow: hidden;
     }
 
-    .rsvp h2 {
-      font-size: clamp(34px, 6vw, 56px);
-      font-weight: 900;
-      letter-spacing: -0.035em;
-      text-transform: uppercase;
-      line-height: 0.95;
-      margin-bottom: 18px;
+    .rsvp::before {
+      content: "";
+      position: absolute;
+      width: 420px;
+      height: 420px;
+      right: -140px;
+      top: -180px;
+      background: radial-gradient(circle, rgba(255, 92, 26, 0.18), rgba(255, 92, 26, 0) 65%);
+      pointer-events: none;
     }
 
-    .rsvp h2 em { font-style: normal; color: #FF5C1A; }
+    .rsvp h2 { font-size: clamp(36px, 6vw, 60px); font-weight: 900; letter-spacing: -0.04em; text-transform: uppercase; line-height: 0.92; margin-bottom: 20px; }
+    .rsvp h2 em { font-style: normal; color: var(--orange); }
 
     .when { font-size: 13px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #bbb; line-height: 2; }
-    .when strong { color: #FF5C1A; }
+    .when strong { color: var(--orange); }
 
     label { display: block; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #888; margin-bottom: 6px; }
 
@@ -208,28 +262,35 @@
       border-radius: 0;
     }
 
-    input:focus { outline: 2px solid #FF5C1A; outline-offset: 0; }
+    input:focus { outline: 2px solid var(--orange); outline-offset: 0; }
 
     .hp { position: absolute; left: -9999px; height: 0; overflow: hidden; }
-
     .fine { font-size: 12px; color: #666; margin-top: 14px; }
 
     .status { margin-top: 18px; font-size: 15px; display: none; padding: 14px 16px; border: 1px solid #2a2a2a; }
-    .status.ok { display: block; border-color: #FF5C1A; color: #fff; }
+    .status.ok { display: block; border-color: var(--orange); color: #fff; }
     .status.err { display: block; color: #ff8a8a; border-color: #5a2a2a; }
 
     footer { padding: 28px 0 40px; border-top: 1px solid #161616; display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; align-items: flex-end; }
     footer .cities { font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #999; }
     footer .sub2 { font-size: 12px; color: #555; margin-top: 4px; }
-    footer .url { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #FF5C1A; text-align: right; }
+    footer .url { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--orange); text-align: right; }
 
-    @media (prefers-reduced-motion: reduce) { .ticker-track { animation: none; } }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-bg, .dot { animation: none; }
+      .rise { animation: none; }
+    }
 
     @media (max-width: 760px) {
-      .hero { grid-template-columns: 1fr; padding-top: 32px; }
-      .badge { left: 8px; }
+      .hero-bg { background-position: 68% 30%; }
+      .hero::before {
+        background:
+          linear-gradient(to top, #080808 0%, rgba(8, 8, 8, 0.94) 30%, rgba(8, 8, 8, 0.1) 62%, rgba(8, 8, 8, 0.6) 100%);
+      }
+      .cue { display: none; }
+      .hero-content { padding-bottom: 48px; }
       .teasers { grid-template-columns: 1fr; }
-      .teaser { border-right: 0; border-bottom: 1px solid #1a1a1a; padding: 26px 8px; }
+      .teaser { border-right: 0; border-bottom: 1px solid #1a1a1a; padding: 28px 8px; }
       .teaser:last-child { border-bottom: 0; }
       .rsvp { grid-template-columns: 1fr; padding: 28px 20px; gap: 24px; }
       footer .url { text-align: left; }
@@ -237,37 +298,31 @@
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="topbar">
-      <img src="idu-house-logo.png" alt="Idu House">
-      <a class="btn" href="#rsvp">Get on the list</a>
-    </div>
-  </div>
 
-  <div class="ticker" aria-hidden="true">
-    <div class="ticker-track">
-      <span>The Plug</span><span class="dim">/</span><span>Coming soon</span><span class="dim">/</span><span>Creators only</span><span class="dim">/</span><span>Info session Wednesday</span><span class="dim">/</span>
-      <span>The Plug</span><span class="dim">/</span><span>Coming soon</span><span class="dim">/</span><span>Creators only</span><span class="dim">/</span><span>Info session Wednesday</span><span class="dim">/</span>
-      <span>The Plug</span><span class="dim">/</span><span>Coming soon</span><span class="dim">/</span><span>Creators only</span><span class="dim">/</span><span>Info session Wednesday</span><span class="dim">/</span>
-      <span>The Plug</span><span class="dim">/</span><span>Coming soon</span><span class="dim">/</span><span>Creators only</span><span class="dim">/</span><span>Info session Wednesday</span><span class="dim">/</span>
-    </div>
-  </div>
+  <header class="hero">
+    <div class="hero-bg" role="img" aria-label="Animated creator holding stacks of cash outside a neon storefront reading THE PLUG"></div>
 
-  <div class="wrap">
-    <div class="hero">
-      <div>
-        <h1>The<br><em>Plug</em></h1>
-        <div class="kicker">Something is coming</div>
-        <p class="tagline">Post. Get seen. Get paid.</p>
-        <p class="sub">A new way for creators to move together. Details drop at the info session.</p>
+    <div class="wrap" style="width:100%">
+      <div class="topbar">
+        <img src="idu-house-logo.png" alt="Idu House">
+        <a class="btn ghost" href="#rsvp">Get on the list</a>
+      </div>
+    </div>
+
+    <div class="wrap hero-content" style="width:100%">
+      <div class="live rise d1"><span class="dot"></span>Info session &middot; Wed 9 PM ET</div>
+      <h1 class="rise d2">The<em>Plug</em></h1>
+      <p class="tagline rise d3">Post. Get seen. Get paid.</p>
+      <p class="sub rise d3">A new way for creators to move together. Details drop at the info session.</p>
+      <div class="cta-row rise d4">
         <a class="btn" href="#rsvp">Pull up Wednesday</a>
       </div>
-      <div class="art-wrap">
-        <img src="plug-hero.jpg" alt="Animated creator holding stacks of cash outside a neon storefront reading THE PLUG">
-        <div class="badge">Opening soon</div>
-      </div>
     </div>
 
+    <div class="cue">Scroll</div>
+  </header>
+
+  <div class="wrap">
     <div class="teasers">
       <div class="teaser"><small>01</small>Any size.<br>Any niche.</div>
       <div class="teaser"><small>02</small>Your content.<br>Your upside.</div>
