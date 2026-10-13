@@ -8,8 +8,8 @@
   <meta property="og:site_name" content="Idu House">
   <meta property="og:title" content="THE PLUG | Idu House">
   <meta property="og:description" content="Post. Get seen. Get paid. Info session Wednesday October 14, 9 PM ET.">
-  <meta property="og:image" content="plug-hero.jpg?v=2">
-  <link rel="preload" as="image" href="plug-hero.jpg?v=2">
+  <meta property="og:image" content="plug-hero-2.jpg?v=1">
+  <link rel="preload" as="image" href="plug-hero-2.jpg?v=1">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
@@ -119,9 +119,10 @@
 
     .hero-bg {
       position: absolute;
-      inset: -4%;
+      inset: 0;
       z-index: -3;
-      background: #000 url("plug-hero.jpg?v=2") 62% 38% / cover no-repeat;
+      background: #000 url("plug-hero-2.jpg?v=1") 50% 12% / cover no-repeat;
+      transform-origin: 100% 30%;
       animation: drift 22s ease-in-out infinite alternate;
     }
 
@@ -132,7 +133,7 @@
       z-index: -2;
       background:
         linear-gradient(to top, #000 0%, rgba(0, 0, 0, 0.9) 14%, rgba(0, 0, 0, 0.15) 52%, rgba(0, 0, 0, 0.7) 100%),
-        linear-gradient(to right, rgba(0, 0, 0, 0.88) 0%, rgba(0, 0, 0, 0.4) 40%, rgba(0, 0, 0, 0) 68%);
+        linear-gradient(to right, rgba(0, 0, 0, 0.74) 0%, rgba(0, 0, 0, 0.28) 42%, rgba(0, 0, 0, 0) 70%);
     }
 
     .hero::after {
@@ -146,8 +147,8 @@
     }
 
     @keyframes drift {
-      from { transform: scale(1) translate3d(0, 0, 0); }
-      to { transform: scale(1.08) translate3d(-1.2%, -1%, 0); }
+      from { transform: scale(1); }
+      to { transform: scale(1.06); }
     }
 
     .hero-content { padding: 140px 28px 78px; width: 100%; }
@@ -394,7 +395,7 @@
       .burger { display: block; }
       .nav-cta { display: none; }
       .sticker { display: none; }
-      .hero-bg { background-position: 68% 30%; }
+      .hero-bg { background-position: 75% 30%; }
       .hero::before { background: linear-gradient(to top, #000 0%, rgba(0, 0, 0, 0.94) 30%, rgba(0, 0, 0, 0.1) 62%, rgba(0, 0, 0, 0.65) 100%); }
       .hero-content { padding-bottom: 50px; }
       .teasers { grid-template-columns: 1fr; }
