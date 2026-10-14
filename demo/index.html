@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THE PLUG Demo | Idu House</title>
+  <meta name="description" content="See how THE PLUG works. Hit the arrow and watch a campaign go from idea to payout. Prototype with sample data.">
+  <meta property="og:site_name" content="Idu House">
+  <meta property="og:title" content="THE PLUG Demo | Idu House">
+  <meta property="og:description" content="Hit the arrow and watch a campaign go from idea to payout.">
+  <meta property="og:image" content="../plug-hero-2.jpg?v=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    :root {
+      --black: #000;
+      --panel: #0b0b0b;
+      --panel2: #121212;
+      --gold: #D09543;
+      --gold-hot: #E3A957;
+      --cream: #F7F2E4;
+      --dark: #1C1C1C;
+      --muted: #8f8a7c;
+      --line: rgba(247, 242, 228, 0.14);
+      --green: #6ee7a0;
+      --serif: 'Instrument Serif', Georgia, serif;
+      --sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+    body { font-family: var(--sans); background: var(--black); color: var(--cream); line-height: 1.55; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; }
+    .wrap { max-width: 1240px; margin: 0 auto; padding: 0 28px; }
+
+    .btn {
+      display: inline-block; background: var(--gold); color: var(--dark); font-family: var(--sans); font-weight: 700;
+      font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; padding: 17px 32px;
+      border: 1px solid var(--gold); cursor: pointer; transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+    }
+    .btn:hover { transform: translate(-3px, -3px); box-shadow: 5px 5px 0 0 var(--cream); background: var(--gold-hot); }
+    .btn.small { padding: 12px 22px; font-size: 12px; }
+    .btn.dark { background: var(--dark); color: var(--cream); border-color: var(--dark); }
+    .btn.dark:hover { box-shadow: 5px 5px 0 0 var(--cream); background: var(--dark); }
+
+    /* HEADER */
+    .site-header { position: relative; z-index: 20; }
+    .nav { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 20px 0; }
+    .nav .logo img { height: 64px; width: auto; display: block; }
+    .nav-links { display: flex; align-items: center; gap: 30px; }
+    .nav-links a.link { font-size: 14px; font-weight: 500; letter-spacing: 0.02em; text-decoration: none; position: relative; padding: 4px 0; }
+    .nav-links a.link::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform 0.2s ease; }
+    .nav-links a.link:hover { color: var(--gold); }
+    .nav-links a.link:hover::after { transform: scaleX(1); }
+    .burger { display: none; background: none; border: 1px solid rgba(247, 242, 228, 0.45); color: var(--cream); width: 44px; height: 44px; font-size: 18px; cursor: pointer; }
+
+    /* PAGE HERO */
+    .page-hero { position: relative; padding: 36px 0 44px; isolation: isolate; overflow: hidden; }
+    .page-hero::before { content: ""; position: absolute; inset: 0; z-index: -2; background: url("../plug-hero-2.jpg?v=1") 50% 30% / cover no-repeat; opacity: 0.35; }
+    .page-hero::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(to bottom, #000 0%, rgba(0,0,0,.35) 40%, #000 100%), linear-gradient(to right, rgba(0,0,0,.85), rgba(0,0,0,.2)); }
+    .pill { display: inline-flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; background: rgba(0,0,0,.5); border: 1px solid rgba(247,242,228,.25); padding: 9px 16px; margin-bottom: 18px; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); animation: pulse 1.8s infinite; }
+    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(208,149,67,.75); } 70% { box-shadow: 0 0 0 12px rgba(208,149,67,0); } 100% { box-shadow: 0 0 0 0 rgba(208,149,67,0); } }
+    .page-hero h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(64px, 11vw, 150px); line-height: .8; letter-spacing: -0.045em; }
+    .page-hero h1 .out { font-style: italic; color: transparent; -webkit-text-stroke: 1.5px var(--cream); }
+    .page-hero h1 em { color: var(--gold); text-transform: uppercase; font-style: normal; }
+    .page-hero p { font-size: 18px; color: #d9d3c3; max-width: 560px; margin-top: 22px; }
+
+    /* STAGE */
+    .stage { display: grid; grid-template-columns: 300px 1fr; gap: 28px; padding: 14px 0 90px; align-items: start; }
+
+    .rail { display: flex; flex-direction: column; gap: 14px; position: sticky; top: 16px; }
+    .track { border: 1px solid var(--line); padding: 18px 18px 16px; cursor: pointer; transition: border-color .2s, background .2s; background: #060606; }
+    .track:hover { border-color: rgba(208,149,67,.6); }
+    .track.on { border-color: var(--gold); background: #0d0a05; }
+    .track .n { font-size: 11px; font-weight: 700; letter-spacing: .18em; color: var(--gold); }
+    .track h4 { font-family: var(--serif); font-weight: 400; font-size: 30px; line-height: 1; letter-spacing: -0.02em; margin: 6px 0 4px; }
+    .track small { display: block; color: var(--muted); font-size: 13px; }
+    .track ol { list-style: none; margin-top: 12px; display: none; border-top: 1px solid var(--line); padding-top: 10px; }
+    .track.on ol { display: block; }
+    .track li { font-size: 13px; color: var(--muted); padding: 3px 0 3px 22px; position: relative; }
+    .track li::before { content: ""; position: absolute; left: 3px; top: 10px; width: 8px; height: 8px; border-radius: 50%; border: 1px solid var(--muted); }
+    .track li.done { color: #bdb7a8; }
+    .track li.done::before { background: var(--gold); border-color: var(--gold); }
+    .track li.cur { color: var(--cream); font-weight: 700; }
+    .track li.cur::before { border-color: var(--gold); box-shadow: 0 0 0 4px rgba(208,149,67,.25); }
+
+    .main { min-width: 0; }
+
+    /* APP FRAME */
+    .frame { position: relative; background: var(--panel); border: 1px solid rgba(247,242,228,.22); box-shadow: 0 30px 90px rgba(208,149,67,.14), 0 0 0 1px #000; border-radius: 14px; overflow: hidden; }
+    .chrome { display: flex; align-items: center; gap: 14px; padding: 12px 16px; background: #141414; border-bottom: 1px solid var(--line); }
+    .lights { display: flex; gap: 7px; }
+    .lights i { width: 11px; height: 11px; border-radius: 50%; background: #3a3a3a; display: block; }
+    .addr { flex: 1; font-size: 13px; color: #a8a396; background: #0a0a0a; border: 1px solid var(--line); border-radius: 999px; padding: 6px 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .addr b { color: var(--cream); font-weight: 500; }
+    .proto { font-size: 10px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--dark); background: var(--gold); padding: 5px 9px; }
+    .app { min-height: 600px; position: relative; }
+    .view { padding: 26px 28px 30px; animation: fadein .35s ease both; }
+    @keyframes fadein { from { opacity: 0; transform: translateY(8px); } }
+    .sample { position: absolute; right: 14px; bottom: 10px; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: #5f5b50; pointer-events: none; }
+
+    .cursor { position: absolute; left: 0; top: 0; width: 26px; height: 26px; z-index: 60; pointer-events: none; opacity: 0; transition: transform .8s cubic-bezier(.45,.05,.2,1), opacity .25s; filter: drop-shadow(0 3px 6px rgba(0,0,0,.7)); }
+
+    /* APP UI */
+    .app-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 18px; }
+    .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+    .app h3 { font-family: var(--serif); font-weight: 400; font-size: clamp(34px, 4vw, 48px); line-height: .95; letter-spacing: -0.03em; }
+    .wallet { display: inline-flex; align-items: center; gap: 9px; border: 1px solid var(--line); background: var(--panel2); padding: 8px 14px; font-weight: 700; font-size: 15px; white-space: nowrap; }
+    .coin { width: 20px; height: 20px; border-radius: 50%; background: var(--gold); color: var(--dark); font-size: 11px; font-weight: 900; display: inline-flex; align-items: center; justify-content: center; }
+
+    .stepper { display: flex; gap: 6px; margin-bottom: 22px; flex-wrap: wrap; }
+    .stepper span { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--line); padding: 7px 12px; }
+    .stepper span.on { color: var(--dark); background: var(--gold); border-color: var(--gold); }
+
+    .opts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 22px; }
+    .opt { border: 1px solid var(--line); background: var(--panel2); padding: 22px 16px; text-align: center; position: relative; transition: border-color .2s, background .2s, transform .15s; }
+    .opt i { display: block; font-style: normal; font-size: 30px; color: var(--gold); margin-bottom: 8px; }
+    .opt b { font-family: var(--serif); font-weight: 400; font-size: 28px; display: block; line-height: 1; }
+    .opt small { color: var(--muted); font-size: 13px; }
+    .opt.sel { border-color: var(--gold); background: #1a1308; }
+    .opt.sel::after { content: "\2713"; position: absolute; top: 8px; right: 10px; width: 22px; height: 22px; border-radius: 50%; background: var(--gold); color: var(--dark); font-size: 13px; font-weight: 900; display: flex; align-items: center; justify-content: center; }
+    .pressed { transform: scale(.96) !important; }
+
+    .fields label { display: block; font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; }
+    .input { border: 1px solid rgba(247,242,228,.25); background: #050505; padding: 13px 15px; min-height: 48px; font-size: 16px; margin-bottom: 16px; }
+    .input.typing::after, .area.typing::after { content: ""; display: inline-block; width: 2px; height: 1em; background: var(--gold); margin-left: 2px; vertical-align: -2px; animation: blink .7s steps(1) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+    .row-end { display: flex; justify-content: flex-end; margin-top: 6px; }
+    .btn-ui { display: inline-block; background: var(--gold); color: var(--dark); font-weight: 700; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; padding: 13px 22px; transition: transform .15s; cursor: default; }
+    .btn-ui.ghost { background: transparent; color: var(--cream); border: 1px solid rgba(247,242,228,.35); }
+
+    .budget-big { font-family: var(--serif); font-size: clamp(64px, 9vw, 110px); line-height: .9; letter-spacing: -0.04em; display: flex; align-items: baseline; gap: 14px; margin: 6px 0 18px; }
+    .budget-big small { font-family: var(--sans); font-size: 14px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+    .slider { position: relative; height: 8px; background: #1b1b1b; border-radius: 99px; margin: 8px 0 28px; }
+    .slider .fill { position: absolute; left: 0; top: 0; bottom: 0; width: 8%; background: var(--gold); border-radius: 99px; }
+    .slider .thumb { position: absolute; top: 50%; left: 8%; width: 24px; height: 24px; margin: -12px 0 0 -12px; border-radius: 50%; background: var(--cream); border: 3px solid var(--gold); box-shadow: 0 4px 14px rgba(0,0,0,.6); }
+    .chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+    .chip { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; border: 1px solid var(--line); padding: 10px 16px; color: var(--muted); background: var(--panel2); transition: all .2s; cursor: default; }
+    .chip.sel, .chip.on { background: var(--gold); border-color: var(--gold); color: var(--dark); }
+    .note { font-size: 14px; color: #bdb7a8; opacity: 0; transition: opacity .4s; margin-top: 10px; }
+    .note.show { opacity: 1; }
+    .wallet-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; border: 1px solid var(--line); background: var(--panel2); padding: 14px 16px; margin-bottom: 18px; }
+    .wallet-row > span:first-child { color: var(--muted); font-size: 14px; }
+
+    .area { border: 1px solid rgba(247,242,228,.25); background: #050505; padding: 14px 15px; min-height: 96px; font-size: 16px; margin-bottom: 18px; }
+    .launch { text-align: center; margin-top: 8px; }
+    .launch-btn { display: inline-block; background: var(--gold); color: var(--dark); font-weight: 800; font-size: 15px; letter-spacing: .14em; text-transform: uppercase; padding: 20px 46px; transition: transform .15s, background .2s; }
+    .launch-btn.go { background: var(--cream); }
+
+    .overlay { position: absolute; inset: 0; background: #040404; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; opacity: 0; pointer-events: none; transition: opacity .4s; z-index: 30; padding: 24px; }
+    .overlay.show { opacity: 1; }
+    .overlay .big { font-family: var(--serif); font-size: clamp(80px, 14vw, 160px); line-height: .85; letter-spacing: -0.04em; color: var(--gold); display: flex; align-items: center; gap: 18px; }
+    .overlay .big .dot { width: 18px; height: 18px; }
+    .overlay p { font-size: 18px; margin-top: 14px; color: #d9d3c3; }
+    .overlay .cnt { margin-top: 16px; font-size: 13px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); }
+    .overlay .cnt b { font-size: 26px; color: var(--cream); margin-right: 6px; letter-spacing: 0; }
+    .confetti i { position: absolute; left: 50%; top: 46%; width: 9px; height: 9px; background: var(--gold); opacity: 0; animation: pop 1.3s cubic-bezier(.1,.7,.3,1) forwards; }
+    @keyframes pop { 0% { opacity: 1; transform: translate(0,0) rotate(0); } 100% { opacity: 0; transform: translate(var(--x), var(--y)) rotate(var(--r)); } }
+
+    .camps { display: grid; gap: 12px; }
+    .camp { display: grid; grid-template-columns: 1fr auto; gap: 14px; align-items: center; border: 1px solid var(--line); background: var(--panel2); padding: 16px 18px; transition: border-color .25s, background .25s; }
+    .camp.sel { border-color: var(--gold); background: #17110a; }
+    .camp .tag { display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--dark); background: var(--gold); padding: 3px 7px; margin-right: 8px; }
+    .camp .tag.alt { background: #2a2a2a; color: var(--muted); }
+    .camp h5 { font-family: var(--serif); font-weight: 400; font-size: 28px; line-height: 1.05; letter-spacing: -0.02em; margin-top: 6px; }
+    .camp .by { font-size: 13px; color: var(--muted); }
+    .mini { margin-top: 10px; height: 5px; background: #222; border-radius: 99px; max-width: 280px; overflow: hidden; }
+    .mini i { display: block; height: 100%; background: var(--gold); }
+    .camp .left { font-size: 12px; color: var(--muted); margin-top: 6px; }
+    .btn-ui.done { background: transparent; color: var(--green); border: 1px solid var(--green); }
+    .unlock { margin-top: 14px; border: 1px dashed var(--gold); padding: 14px 16px; font-size: 15px; color: #e6dfcb; opacity: 0; transform: translateY(8px); transition: all .4s; }
+    .unlock.show { opacity: 1; transform: none; }
+    .unlock b { color: var(--gold); }
+
+    .post { display: grid; grid-template-columns: 230px 1fr; gap: 30px; align-items: center; }
+    .phone { width: 220px; height: 400px; margin: 0 auto; border: 6px solid #222; border-radius: 30px; background: #000; position: relative; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,.6); }
+    .screen { position: absolute; inset: 0; background: radial-gradient(circle at 30% 20%, #6d3a12, transparent 55%), radial-gradient(circle at 80% 80%, #2b1a52, transparent 55%), linear-gradient(160deg, #1a1208, #08060f); }
+    .eq { position: absolute; left: 50%; top: 44%; transform: translate(-50%, -50%); display: flex; align-items: flex-end; gap: 6px; height: 80px; }
+    .eq i { width: 9px; height: 18px; background: var(--gold); display: block; border-radius: 3px; }
+    .phone.play .eq i { animation: eq .9s ease-in-out infinite alternate; }
+    .phone.play .eq i:nth-child(2) { animation-delay: .15s; } .phone.play .eq i:nth-child(3) { animation-delay: .3s; } .phone.play .eq i:nth-child(4) { animation-delay: .45s; } .phone.play .eq i:nth-child(5) { animation-delay: .6s; }
+    @keyframes eq { from { height: 14px; } to { height: 78px; } }
+    .pcap { position: absolute; left: 14px; right: 14px; bottom: 34px; font-size: 12px; line-height: 1.35; }
+    .pcap b { display: block; font-size: 13px; }
+    .pcap span { color: #cfc8b6; }
+    .pbar { position: absolute; left: 14px; right: 14px; bottom: 16px; height: 3px; background: rgba(255,255,255,.2); border-radius: 9px; overflow: hidden; }
+    .pbar i { display: block; height: 100%; width: 0; background: var(--cream); }
+    .phone.play .pbar i { animation: prog 6s linear infinite; }
+    @keyframes prog { to { width: 100%; } }
+    .detect { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); opacity: 0; transition: opacity .4s; margin: -6px 0 14px; }
+    .detect.show { opacity: 1; }
+    .ok { margin-top: 16px; border: 1px solid var(--green); color: var(--green); padding: 14px 16px; font-size: 15px; opacity: 0; transform: translateY(8px); transition: all .4s; }
+    .ok.show { opacity: 1; transform: none; }
+
+    .stat-row { display: grid; grid-template-columns: 1.2fr 1fr; gap: 14px; margin-bottom: 14px; }
+    .stat { border: 1px solid var(--line); background: var(--panel2); padding: 18px 20px; }
+    .stat small { display: block; font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+    .stat .num { font-family: var(--serif); font-size: clamp(52px, 7vw, 84px); line-height: .95; letter-spacing: -0.04em; }
+    .stat .num.gold { color: var(--gold); }
+    .stat .sub { font-size: 13px; color: var(--muted); margin-top: 4px; }
+    .bar { height: 8px; background: #1e1e1e; border-radius: 99px; overflow: hidden; margin-top: 10px; }
+    .bar i { display: block; height: 100%; width: 0; background: var(--gold); border-radius: 99px; }
+    .bonus { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; border: 1px solid var(--line); background: var(--panel2); padding: 14px 18px; }
+    .bonus .float { color: var(--green); font-weight: 800; opacity: 0; transform: translateY(8px); transition: all .5s; }
+    .bonus .float.show { opacity: 1; transform: none; }
+
+    .wallet-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+    .bal { border: 1px solid var(--line); background: var(--panel2); padding: 20px; }
+    .bal .num { font-family: var(--serif); font-size: clamp(60px, 8vw, 96px); line-height: .9; letter-spacing: -0.04em; color: var(--gold); }
+    .ledger { margin-top: 14px; border-top: 1px solid var(--line); padding-top: 10px; font-size: 13px; opacity: 0; transition: opacity .5s; }
+    .ledger.show { opacity: 1; }
+    .ledger div { display: flex; justify-content: space-between; padding: 4px 0; color: #bdb7a8; }
+    .ledger b { color: var(--green); }
+    .actions { display: grid; gap: 12px; }
+    .act { border: 1px solid var(--line); background: var(--panel2); padding: 16px 18px; transition: border-color .25s, background .25s; }
+    .act.sel { border-color: var(--gold); background: #17110a; }
+    .act h5 { font-family: var(--serif); font-weight: 400; font-size: 28px; line-height: 1; letter-spacing: -0.02em; }
+    .act p { font-size: 13px; color: var(--muted); margin-top: 4px; }
+    .act .more { max-height: 0; overflow: hidden; opacity: 0; transition: all .5s; font-size: 14px; color: #e6dfcb; }
+    .act .more.show { max-height: 80px; opacity: 1; margin-top: 10px; }
+    .loopy { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+    .loop-chip { font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; padding: 11px 16px; border: 1px solid var(--line); color: var(--muted); transition: all .3s; }
+    .loop-chip.hot { background: var(--gold); border-color: var(--gold); color: var(--dark); }
+    .loopy .ar { color: var(--gold); font-weight: 800; }
+
+    .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 14px; }
+    .kpi { border: 1px solid var(--line); background: var(--panel2); padding: 16px 16px 14px; }
+    .kpi small { display: block; font-size: 10px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+    .kpi .num { font-family: var(--serif); font-size: clamp(34px, 4.2vw, 52px); line-height: 1; letter-spacing: -0.03em; margin-top: 6px; }
+    .kpi .sub { font-size: 12px; color: var(--muted); }
+    .live { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--green); }
+    .live i { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: pulseg 1.6s infinite; display: block; }
+    @keyframes pulseg { 0% { box-shadow: 0 0 0 0 rgba(110,231,160,.7); } 70% { box-shadow: 0 0 0 10px rgba(110,231,160,0); } 100% { box-shadow: 0 0 0 0 rgba(110,231,160,0); } }
+    .chart { border: 1px solid var(--line); background: var(--panel2); padding: 16px 18px 10px; }
+    .chart small { font-size: 10px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+    .chart svg { width: 100%; height: 190px; display: block; margin-top: 8px; }
+    #chartLine { fill: none; stroke: var(--gold); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.8s cubic-bezier(.3,.6,.2,1); }
+    #chartLine.draw { stroke-dashoffset: 0; }
+    #chartArea { fill: url(#g1); opacity: 0; transition: opacity 1.2s .6s; }
+    #chartArea.show { opacity: 1; }
+    .xl { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); padding: 4px 2px 4px; }
+
+    .lb { border: 1px solid var(--line); background: var(--panel2); }
+    .lb-head, .lb-row { display: grid; grid-template-columns: 34px 1.5fr 1fr 1.6fr .8fr; gap: 12px; align-items: center; padding: 13px 16px; }
+    .lb-head { font-size: 10px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--line); }
+    .lb-row { border-bottom: 1px solid #1b1b1b; opacity: 0; transform: translateY(10px); transition: all .45s; font-size: 14px; }
+    .lb-row:last-child { border-bottom: 0; }
+    .lb-row.in { opacity: 1; transform: none; }
+    .lb-row .rk { font-family: var(--serif); font-size: 26px; color: var(--gold); line-height: 1; }
+    .lb-row .who { display: flex; align-items: center; gap: 10px; font-weight: 700; min-width: 0; }
+    .av { width: 30px; height: 30px; border-radius: 50%; background: #2a2a2a; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; color: var(--gold); flex-shrink: 0; }
+    .lb-row .rbar { height: 6px; background: #222; border-radius: 99px; overflow: hidden; margin-top: 5px; }
+    .lb-row .rbar i { display: block; height: 100%; width: 0; background: var(--gold); transition: width .9s cubic-bezier(.2,.7,.2,1) .15s; }
+    .lb-row.in .rbar i { width: var(--w); }
+    .lb-row .tok { text-align: right; font-weight: 800; }
+    .lb-row.hl { background: linear-gradient(to right, rgba(208,149,67,.14), transparent); }
+    .callout { margin-top: 14px; border: 1px solid var(--gold); padding: 16px 18px; font-family: var(--serif); font-size: clamp(26px, 3vw, 36px); line-height: 1.05; letter-spacing: -0.02em; opacity: 0; transform: translateY(8px); transition: all .5s; }
+    .callout.show { opacity: 1; transform: none; }
+    .callout em { color: var(--gold); }
+
+    .done-badge { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--dark); background: var(--green); padding: 6px 12px; }
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+    .plat { display: grid; grid-template-columns: 70px 1fr 40px; gap: 10px; align-items: center; font-size: 13px; margin-top: 10px; }
+    .plat .bar { margin: 0; }
+    .toast { position: absolute; right: 22px; top: 76px; background: var(--cream); color: var(--dark); font-weight: 700; font-size: 14px; padding: 14px 18px; box-shadow: 6px 6px 0 var(--gold); opacity: 0; transform: translateY(-14px); transition: all .4s; z-index: 40; }
+    .toast.show { opacity: 1; transform: none; }
+
+    .intro { min-height: 520px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; }
+    .ring { width: 108px; height: 108px; border-radius: 50%; border: 2px solid var(--gold); color: var(--gold); display: flex; align-items: center; justify-content: center; font-size: 46px; margin-bottom: 22px; animation: ringp 1.8s infinite; }
+    @keyframes ringp { 0% { box-shadow: 0 0 0 0 rgba(208,149,67,.6); } 70% { box-shadow: 0 0 0 26px rgba(208,149,67,0); } 100% { box-shadow: 0 0 0 0 rgba(208,149,67,0); } }
+    .intro h3 { font-size: clamp(54px, 8vw, 96px); }
+    .intro p { color: #bdb7a8; font-size: 17px; max-width: 460px; margin: 12px 0 22px; }
+    .mini-tracks { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+    .mini-tracks span { font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; border: 1px solid var(--line); padding: 9px 14px; color: var(--muted); }
+
+    /* CONTROLS */
+    .controls { display: grid; grid-template-columns: auto 1fr auto; gap: 22px; align-items: center; margin-top: 22px; }
+    .arrow { width: 84px; height: 84px; border-radius: 50%; border: 0; background: var(--gold); color: var(--dark); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform .12s, box-shadow .12s, background .12s; }
+    .arrow:hover { transform: translate(-3px,-3px); box-shadow: 5px 5px 0 var(--cream); background: var(--gold-hot); }
+    .arrow svg { width: 34px; height: 34px; }
+    .arrow.hint { animation: ringp 1.8s infinite; }
+    .arrow.ghost { width: 56px; height: 56px; background: transparent; color: var(--cream); border: 1px solid rgba(247,242,228,.35); }
+    .arrow.ghost:hover { background: var(--cream); color: var(--dark); box-shadow: 4px 4px 0 var(--gold); }
+    .arrow.ghost svg { width: 22px; height: 22px; }
+    .cap .lab { font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); }
+    .cap h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(32px, 4vw, 52px); line-height: .98; letter-spacing: -0.03em; margin: 6px 0 6px; }
+    .cap p { color: #bdb7a8; font-size: 15px; max-width: 560px; }
+    .tools { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 16px; flex-wrap: wrap; }
+    .dots { display: flex; gap: 8px; }
+    .dots button { width: 12px; height: 12px; border-radius: 50%; border: 1px solid var(--muted); background: transparent; cursor: pointer; padding: 0; transition: all .2s; }
+    .dots button.done { background: #6b5329; border-color: #6b5329; }
+    .dots button.on { background: var(--gold); border-color: var(--gold); transform: scale(1.3); }
+    .auto { font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; background: transparent; color: var(--cream); border: 1px solid rgba(247,242,228,.35); padding: 10px 16px; cursor: pointer; font-family: var(--sans); }
+    .auto.on { background: var(--cream); color: var(--dark); }
+    .endcta { display: none; margin-top: 18px; }
+    .endcta.show { display: block; }
+
+    /* FOOTER (matches iduhouse.com) */
+    .site-footer { background: var(--gold); color: var(--dark); padding: 84px 0 34px; }
+    .foot-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 56px; align-items: start; }
+    .foot-big { font-family: var(--serif); font-weight: 400; font-size: clamp(44px, 6vw, 84px); line-height: .95; letter-spacing: -0.035em; }
+    .foot-big a { text-decoration: none; border-bottom: 2px solid var(--dark); }
+    .foot-copy { font-size: 18px; letter-spacing: -0.01em; margin: 26px 0 18px; max-width: 520px; }
+    .foot-go { font-family: var(--serif); font-style: italic; font-size: clamp(34px, 4vw, 52px); letter-spacing: -0.03em; line-height: 1; }
+    .foot-contact h4 { font-family: var(--serif); font-weight: 400; font-size: 44px; letter-spacing: -0.03em; line-height: 1; margin-bottom: 8px; }
+    .foot-contact a.mail { font-size: 19px; display: inline-block; margin-bottom: 28px; text-decoration: underline; text-underline-offset: 4px; }
+    .socials { display: flex; gap: 10px; margin-top: 30px; }
+    .socials a { width: 40px; height: 40px; border: 1px solid var(--dark); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background .15s, color .15s; }
+    .socials a:hover { background: var(--dark); color: var(--gold); }
+    .socials svg { width: 18px; height: 18px; }
+    .foot-bottom { margin-top: 70px; padding-top: 22px; border-top: 1px solid rgba(28,28,28,.35); display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 13px; }
+    .foot-bottom .cities { font-weight: 700; letter-spacing: .14em; text-transform: uppercase; font-size: 12px; }
+
+    .frame.instant *, .frame.instant { transition: none !important; animation: none !important; }
+
+    @media (prefers-reduced-motion: reduce) { .dot, .ring, .arrow.hint { animation: none; } }
+
+    @media (max-width: 980px) {
+      .stage { grid-template-columns: 1fr; }
+      .rail { position: static; flex-direction: row; overflow-x: auto; gap: 10px; padding-bottom: 4px; }
+      .track { min-width: 220px; }
+      .track ol { display: none !important; }
+    }
+
+    @media (max-width: 860px) {
+      .nav-links { display: none; position: absolute; top: 90px; left: 20px; right: 20px; flex-direction: column; align-items: flex-start; gap: 18px; background: rgba(0,0,0,.95); border: 1px solid rgba(247,242,228,.25); padding: 24px; z-index: 50; }
+      .nav-links.open { display: flex; }
+      .burger { display: block; }
+      .nav-cta { display: none; }
+      .view { padding: 20px 16px 26px; }
+      .opts { grid-template-columns: 1fr; }
+      .post { grid-template-columns: 1fr; }
+      .stat-row, .wallet-grid, .split { grid-template-columns: 1fr; }
+      .kpis { grid-template-columns: 1fr 1fr; }
+      .lb-head, .lb-row { grid-template-columns: 26px 1.4fr 1.2fr .8fr; }
+      .lb-head span:nth-child(3), .lb-row .fol { display: none; }
+      .controls { grid-template-columns: auto 1fr; }
+      .controls .arrow:last-child { grid-column: 1 / -1; width: 100%; border-radius: 0; height: 64px; }
+      .controls .arrow:last-child svg { width: 28px; }
+      .foot-grid { grid-template-columns: 1fr; gap: 40px; }
+      .addr { font-size: 11px; }
+      .proto { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="wrap">
+      <div class="nav">
+        <a class="logo" href="https://www.iduhouse.com" aria-label="Idu House home"><img src="../idu-house-logo.png" alt="Idu House"></a>
+        <nav class="nav-links" id="nav-links">
+          <a class="link" href="https://www.iduhouse.com">Home</a>
+          <a class="link" href="https://mailbox.iduhouse.com">Mailbox</a>
+          <a class="link" href="https://www.iduhouse.com/4thspace">4th Space</a>
+          <a class="link" href="https://lfls.iduhouse.com/">LFLS</a>
+          <a class="link" href="https://www.iduhouse.com/general-contact">Contact</a>
+          <a class="btn small nav-cta" href="../#rsvp">RSVP</a>
+        </nav>
+        <button class="burger" id="burger" aria-label="Menu" aria-expanded="false">&#9776;</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="pill"><span class="dot"></span>Prototype &middot; Sample data</div>
+      <h1><span class="out">See</span> <em>it move.</em></h1>
+      <p>Hit the arrow. Watch a campaign go from idea to payout, from both sides and the back end. Everything below is a preview with sample numbers.</p>
+    </div>
+  </section>
+
+  <main class="wrap">
+    <div class="stage">
+
+      <aside class="rail" id="rail"></aside>
+
+      <div class="main">
+        <div class="frame" id="frame">
+          <div class="chrome">
+            <div class="lights"><i></i><i></i><i></i></div>
+            <div class="addr">theplug.iduhouse.com<b id="url">/start</b></div>
+            <div class="proto">Prototype</div>
+          </div>
+          <div class="app" id="app"></div>
+          <div class="sample">Sample data</div>
+          <svg class="cursor" id="cursor" viewBox="0 0 24 24"><path d="M4 2l15 9-6.5 1.6L9.6 19z" fill="#D09543" stroke="#000" stroke-width="1.4" stroke-linejoin="round"/></svg>
+        </div>
+
+        <div class="controls">
+          <button class="arrow ghost" id="prev" aria-label="Previous step"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
+          <div class="cap">
+            <div class="lab" id="capLab">Ready</div>
+            <h2 id="capTitle">Hit the arrow.</h2>
+            <p id="capText">Each tap plays the next part of the workflow.</p>
+          </div>
+          <button class="arrow hint" id="next" aria-label="Next step"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        </div>
+
+        <div class="tools">
+          <div class="dots" id="dots"></div>
+          <button class="auto" id="auto">Auto play</button>
+        </div>
+
+        <div class="endcta" id="endcta">
+          <a class="btn" href="../#rsvp">RSVP for the info session</a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <div class="foot-big"><a href="https://www.iduhouse.com/manifesto">Read The Manifesto</a></div>
+          <p class="foot-copy">Whether you're an artist ready to move, a collaborator looking for the right room, or an organization that wants to build something real, the door is open.</p>
+          <div class="foot-go">Let's get to work.</div>
+        </div>
+        <div class="foot-contact">
+          <h4>Join the movement.</h4>
+          <h4 style="font-size:30px;margin-top:22px;margin-bottom:6px">Email</h4>
+          <a class="mail" href="mailto:info@iduhouse.com">info@iduhouse.com</a><br>
+          <a class="btn dark" href="https://www.iduhouse.com/services-home" target="_blank" rel="noopener">Member Login</a>
+          <div class="socials">
+            <a href="http://instagram.com/iduhouse" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+            <a href="https://www.tiktok.com/@iduhouse" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 3c.3 2.3 1.7 3.8 4 4v3.2c-1.5 0-2.9-.5-4-1.3V15a6 6 0 1 1-6-6c.3 0 .7 0 1 .1v3.3a2.8 2.8 0 1 0 1.8 2.6V3z"/></svg></a>
+            <a href="https://www.youtube.com/@IduHouse" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="5" width="19" height="14" rx="4"/><path d="M10 9l5 3-5 3z" fill="currentColor" stroke="none"/></svg></a>
+            <a href="https://www.linkedin.com/company/idu-house/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="9" width="3.5" height="12"/><circle cx="4.75" cy="5" r="2"/><path d="M10 9h3.3v1.7c.6-1.1 1.9-2 3.7-2 3.3 0 4 2.1 4 4.9V21h-3.5v-6.2c0-1.5-.1-2.9-1.9-2.9s-2.1 1.4-2.1 2.8V21H10z"/></svg></a>
+          </div>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <span>&copy; 2026 Idu House</span>
+        <span class="cities">Oakland &middot; Columbus &middot; Indianapolis &middot; Detroit &middot; ATL &middot; DC</span>
+        <span>theplug.iduhouse.com</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  (function () {
+    var params = new URLSearchParams(location.search);
+    var INSTANT = params.has('static');
+
+    var frameEl = document.getElementById('frame');
+    var appEl = document.getElementById('app');
+    var cursor = document.getElementById('cursor');
+    var urlEl = document.getElementById('url');
+    var railEl = document.getElementById('rail');
+    var dotsEl = document.getElementById('dots');
+    var nextBtn = document.getElementById('next');
+    var prevBtn = document.getElementById('prev');
+    var autoBtn = document.getElementById('auto');
+    if (INSTANT) frameEl.classList.add('instant');
+
+    var step = -1, runId = 0, auto = false, autoTimer = null;
+
+    var burger = document.getElementById('burger');
+    var links = document.getElementById('nav-links');
+    burger.addEventListener('click', function () {
+      var open = links.classList.toggle('open');
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+
+    function makeCtx(id) {
+      var sleep = function (ms) {
+        return new Promise(function (res, rej) {
+          if (INSTANT) return res();
+          setTimeout(function () { id === runId ? res() : rej('cancel'); }, ms);
+        });
+      };
+      var q = function (s) { return appEl.querySelector(s); };
+      var qa = function (s) { return Array.prototype.slice.call(appEl.querySelectorAll(s)); };
+      var fmt = function (n) { return Math.round(n).toLocaleString('en-US'); };
+
+      var type = function (el, text, ms) {
+        ms = ms || 36;
+        if (INSTANT) { el.textContent = text; return Promise.resolve(); }
+        el.classList.add('typing');
+        var i = 0;
+        return (function loop() {
+          i++;
+          el.textContent = text.slice(0, i);
+          if (i >= text.length) { el.classList.remove('typing'); return Promise.resolve(); }
+          return sleep(ms).then(loop);
+        })();
+      };
+
+      var count = function (el, to, dur, from) {
+        dur = dur || 1400; from = from || 0;
+        return new Promise(function (res, rej) {
+          if (INSTANT) { el.textContent = fmt(to); return res(); }
+          var t0 = performance.now();
+          (function tick(now) {
+            if (id !== runId) return rej('cancel');
+            var p = Math.min(1, ((now || t0) - t0) / dur);
+            var e = 1 - Math.pow(1 - p, 3);
+            el.textContent = fmt(from + (to - from) * e);
+            if (p < 1) requestAnimationFrame(tick); else res();
+          })(t0);
+        });
+      };
+
+      var moveTo = function (el, dx, dy) {
+        if (INSTANT) return Promise.resolve();
+        dx = dx == null ? 0.5 : dx; dy = dy == null ? 0.5 : dy;
+        var f = frameEl.getBoundingClientRect();
+        var r = el.getBoundingClientRect();
+        var x = r.left - f.left + r.width * dx;
+        var y = r.top - f.top + r.height * dy;
+        cursor.style.opacity = 1;
+        cursor.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+        return sleep(850);
+      };
+      var press = function (el) {
+        if (INSTANT) return Promise.resolve();
+        el.classList.add('pressed');
+        return sleep(170).then(function () { el.classList.remove('pressed'); });
+      };
+      var click = function (el, dx, dy) { return moveTo(el, dx, dy).then(function () { return press(el); }); };
+      var bar = function (el, pct, dur) {
+        dur = dur || 1200;
+        el.style.transition = INSTANT ? 'none' : 'width ' + dur + 'ms cubic-bezier(.2,.7,.2,1)';
+        el.style.width = pct + '%';
+        return sleep(dur);
+      };
+      return { sleep: sleep, q: q, qa: qa, type: type, count: count, moveTo: moveTo, press: press, click: click, bar: bar };
+    }
+
+    function burst(host) {
+      if (INSTANT) return;
+      var wrap = document.createElement('div');
+      wrap.className = 'confetti';
+      for (var i = 0; i < 34; i++) {
+        var p = document.createElement('i');
+        var a = Math.random() * Math.PI * 2, d = 140 + Math.random() * 280;
+        p.style.setProperty('--x', Math.cos(a) * d + 'px');
+        p.style.setProperty('--y', Math.sin(a) * d + 'px');
+        p.style.setProperty('--r', (Math.random() * 720 - 360) + 'deg');
+        p.style.background = i % 3 === 0 ? '#F7F2E4' : '#D09543';
+        wrap.appendChild(p);
+      }
+      host.appendChild(wrap);
+    }
+
+    var wallet = function (n) { return '<div class="wallet"><span class="coin">P</span><b id="walletBal">' + n + '</b></div>'; };
+
+    var INTRO = {
+      url: '/start',
+      html: '<div class="intro"><div class="ring">&rarr;</div><h3>Hit the arrow.</h3><p>Watch a campaign go from idea to payout, in ten quick steps.</p><div class="mini-tracks"><span>Set the campaign</span><span>Accept and create</span><span>The reports</span></div></div>'
+    };
+
+    var LB = [
+      ['kira.moves', '640', 212000, '212,000', '848', 'K', 100],
+      ['lowkey.lenz', '12.4K', 168000, '168,000', '672', 'L', 79],
+      ['jay.onair', '14.2K', 96500, '96,500', '386', 'J', 45.5],
+      ['fitcheck.nia', '5.2K', 74200, '74,200', '297', 'F', 35],
+      ['thecornerstore', '1.1M', 41000, '41,000', '164', 'T', 19.3]
+    ];
+    var lbRows = LB.map(function (r, i) {
+      return '<div class="lb-row' + (i === 0 ? ' hl' : '') + '" style="transition-delay:0s"><div class="rk">' + (i + 1) + '</div>' +
+        '<div class="who"><span class="av">' + r[5] + '</span>@' + r[0] + '</div>' +
+        '<div class="fol">' + r[1] + '</div>' +
+        '<div><b>' + r[3] + '</b><div class="rbar"><i style="--w:' + r[6] + '%"></i></div></div>' +
+        '<div class="tok">' + r[4] + '</div></div>';
+    }).join('');
+
+    var STEPS = [
+      {
+        track: 0, label: 'Pick what you are pushing', title: 'Pick what you\'re pushing.',
+        text: 'Song, product or event. Name it and drop the link.', url: '/campaigns/new',
+        html: '<div class="app-top"><div><div class="eyebrow">New campaign</div><h3>What are you promoting?</h3></div>' + wallet('0') + '</div>' +
+          '<div class="stepper"><span class="on">1 What</span><span>2 Budget</span><span>3 Brief</span><span>4 Launch</span></div>' +
+          '<div class="opts"><div class="opt" id="optSong"><i>&#9834;</i><b>Song</b><small>Push a release</small></div>' +
+          '<div class="opt"><i>&#9635;</i><b>Product</b><small>Move a drop</small></div>' +
+          '<div class="opt"><i>&#10022;</i><b>Event</b><small>Fill the room</small></div></div>' +
+          '<div class="fields"><label>Campaign title</label><div class="input" id="fTitle"></div>' +
+          '<label>Link</label><div class="input" id="fLink"></div></div>' +
+          '<div class="row-end"><span class="btn-ui" id="next1">Continue &rarr;</span></div>',
+        run: function (c) {
+          return c.click(c.q('#optSong')).then(function () {
+            c.q('#optSong').classList.add('sel');
+            return c.sleep(350);
+          }).then(function () { return c.type(c.q('#fTitle'), 'Midnight Drive by Nova Ray'); })
+            .then(function () { return c.type(c.q('#fLink'), 'novaray.com/midnight-drive'); })
+            .then(function () { return c.sleep(300); })
+            .then(function () { return c.click(c.q('#next1')); });
+        }
+      },
+      {
+        track: 0, label: 'Put tokens behind it', title: 'Put tokens behind it.',
+        text: 'Load your wallet and set the budget pool and your reach goal.', url: '/campaigns/new/budget',
+        html: '<div class="app-top"><div><div class="eyebrow">New campaign</div><h3>Fund it.</h3></div>' + wallet('0') + '</div>' +
+          '<div class="stepper"><span>1 What</span><span class="on">2 Budget</span><span>3 Brief</span><span>4 Launch</span></div>' +
+          '<div class="wallet-row"><span>Your wallet is empty. Add tokens to start.</span><span class="btn-ui" id="addTokens">Add tokens</span></div>' +
+          '<div class="eyebrow">Budget pool</div><div class="budget-big"><span id="budgetVal">0</span><small>tokens</small></div>' +
+          '<div class="slider"><div class="fill" id="sFill"></div><div class="thumb" id="sThumb"></div></div>' +
+          '<div class="eyebrow">Reach goal</div><div class="chips"><span class="chip">100K reach</span><span class="chip" id="goal250">250K reach</span><span class="chip">500K reach</span></div>' +
+          '<div class="note" id="goalNote">The pool pays out as posts earn reach, until it is gone.</div>',
+        run: function (c) {
+          var w = c.q('#walletBal');
+          return c.click(c.q('#addTokens')).then(function () { return c.count(w, 5000, 1100); }).then(function () {
+            c.q('.wallet-row span').textContent = 'Wallet loaded. Set your budget below.';
+            return c.sleep(250);
+          }).then(function () {
+            var fill = c.q('#sFill'), thumb = c.q('#sThumb');
+            var tr = INSTANT ? 'none' : 'left 1.2s cubic-bezier(.2,.7,.2,1), width 1.2s cubic-bezier(.2,.7,.2,1)';
+            fill.style.transition = tr; thumb.style.transition = tr;
+            fill.style.width = '50%'; thumb.style.left = '50%';
+            return c.count(c.q('#budgetVal'), 5000, 1200);
+          }).then(function () { return c.click(c.q('#goal250')); }).then(function () {
+            c.q('#goal250').classList.add('sel');
+            c.q('#goalNote').classList.add('show');
+          });
+        }
+      },
+      {
+        track: 0, label: 'Hit launch', title: 'Hit launch.',
+        text: 'Write the brief, pick the platforms, go live. Creators get notified instantly.', url: '/campaigns/new/launch',
+        html: '<div class="app-top"><div><div class="eyebrow">New campaign</div><h3>Brief and launch.</h3></div>' + wallet('5,000') + '</div>' +
+          '<div class="stepper"><span>1 What</span><span>2 Budget</span><span class="on">3 Brief</span><span>4 Launch</span></div>' +
+          '<div class="eyebrow">Brief for creators</div><div class="area" id="brief"></div>' +
+          '<div class="eyebrow">Platforms</div><div class="chips"><span class="chip" id="pTT">TikTok</span><span class="chip" id="pIG">Reels</span><span class="chip" id="pYT">Shorts</span></div>' +
+          '<div class="launch"><span class="launch-btn" id="launchBtn">Launch campaign</span></div>' +
+          '<div class="overlay" id="live"><div class="big"><span class="dot"></span>Live</div><p>Campaign live. Creators are being notified.</p><div class="cnt"><b id="notified">0</b>creators notified</div></div>',
+        run: function (c) {
+          return c.type(c.q('#brief'), 'Make it yours. Use the sound, show your world, tag @novaray.', 24).then(function () {
+            var ids = ['#pTT', '#pIG', '#pYT'];
+            return ids.reduce(function (p, id) {
+              return p.then(function () { return c.click(c.q(id)); }).then(function () { c.q(id).classList.add('on'); });
+            }, Promise.resolve());
+          }).then(function () { return c.click(c.q('#launchBtn')); }).then(function () {
+            c.q('#launchBtn').classList.add('go');
+            c.q('#launchBtn').textContent = 'Launching...';
+            return c.sleep(500);
+          }).then(function () {
+            c.q('#live').classList.add('show');
+            burst(c.q('#live'));
+            return c.count(c.q('#notified'), 312, 1400);
+          });
+        }
+      },
+      {
+        track: 1, label: 'Accept in one tap', title: 'Creators see it. One tap to accept.',
+        text: 'Open campaigns land in the creator feed with the budget still left.', url: '/campaigns',
+        html: '<div class="app-top"><div><div class="eyebrow">Creator view</div><h3>Open campaigns.</h3></div>' + wallet('924') + '</div>' +
+          '<div class="chips"><span class="chip on">All</span><span class="chip">Songs</span><span class="chip">Products</span><span class="chip">Events</span></div>' +
+          '<div class="camps">' +
+          '<div class="camp" id="camp1"><div><span class="tag">New</span><span class="by">Song &middot; by Nova Ray</span><h5>Midnight Drive</h5><div class="mini"><i style="width:100%"></i></div><div class="left">5,000 tokens left</div></div><span class="btn-ui" id="accept1">Accept campaign</span></div>' +
+          '<div class="camp"><div><span class="tag alt">Product</span><span class="by">by Sunday Fits</span><h5>Fall Drop 02</h5><div class="mini"><i style="width:64%"></i></div><div class="left">3,200 tokens left</div></div><span class="btn-ui ghost">View</span></div>' +
+          '<div class="camp"><div><span class="tag alt">Event</span><span class="by">by Rooftop Sessions</span><h5>Friday on the Roof</h5><div class="mini"><i style="width:82%"></i></div><div class="left">4,100 tokens left</div></div><span class="btn-ui ghost">View</span></div>' +
+          '</div><div class="unlock" id="unlock"><b>Brief unlocked.</b> Make it yours. Use the sound, show your world, tag @novaray.</div>',
+        run: function (c) {
+          return c.sleep(500).then(function () { return c.click(c.q('#accept1')); }).then(function () {
+            var b = c.q('#accept1');
+            b.classList.add('done'); b.textContent = 'Accepted ✓';
+            c.q('#camp1').classList.add('sel');
+            return c.sleep(300);
+          }).then(function () { c.q('#unlock').classList.add('show'); });
+        }
+      },
+      {
+        track: 1, label: 'Make your post', title: 'Make your post. Drop the link.',
+        text: 'Post it on your own page, then submit the link to the campaign.', url: '/campaigns/midnight-drive/submit',
+        html: '<div class="app-top"><div><div class="eyebrow">Midnight Drive</div><h3>Submit your post.</h3></div>' + wallet('924') + '</div>' +
+          '<div class="post"><div class="phone" id="phone"><div class="screen"><div class="eq"><i></i><i></i><i></i><i></i><i></i></div>' +
+          '<div class="pcap"><b>@jay.onair</b><span>midnight drive on the way home</span></div><div class="pbar"><i></i></div></div></div>' +
+          '<div class="fields"><label>Post link</label><div class="input" id="postLink"></div>' +
+          '<div class="detect" id="detect">&#9679; TikTok detected</div>' +
+          '<span class="btn-ui" id="submitPost">Submit post</span>' +
+          '<div class="ok" id="postOk">Post received. Tracking reach live.</div></div></div>',
+        run: function (c) {
+          c.q('#phone').classList.add('play');
+          return c.sleep(700).then(function () { return c.type(c.q('#postLink'), 'tiktok.com/@jay.onair/video/7382019', 40); }).then(function () {
+            c.q('#detect').classList.add('show');
+            return c.sleep(450);
+          }).then(function () { return c.click(c.q('#submitPost')); }).then(function () { c.q('#postOk').classList.add('show'); });
+        }
+      },
+      {
+        track: 1, label: 'Reach turns into tokens', title: 'Reach turns into tokens. Live.',
+        text: 'The more your post travels, the more of the budget you earn. Share it more for bonus tokens.', url: '/campaigns/midnight-drive/earnings',
+        html: '<div class="app-top"><div><div class="eyebrow">Midnight Drive &middot; @jay.onair</div><h3>Your earnings.</h3></div>' + wallet('924') + '</div>' +
+          '<div class="stat-row"><div class="stat"><small>Post reach</small><div class="num" id="reachNum">0</div><div class="sub">views, tracked live</div></div>' +
+          '<div class="stat"><small>Tokens earned</small><div class="num gold" id="tokNum">0</div><div class="sub">4 tokens per 1K reach (sample rate)</div></div></div>' +
+          '<div class="stat" style="margin-bottom:14px"><small>Campaign budget left</small><div class="num" style="font-size:44px"><span id="budgetLeft">5,000</span> <span style="font-family:var(--sans);font-size:15px;letter-spacing:0;color:var(--muted);margin-left:8px">of 5,000</span></div><div class="bar"><i id="budgetBar" style="width:100%"></i></div></div>' +
+          '<div class="bonus"><div><b>Repost to your story</b><div style="font-size:13px;color:var(--muted)">Share bonus on top of your reach earnings</div></div><span class="float" id="bonus">+50 tokens</span><span class="btn-ui" id="repost">Repost</span></div>',
+        run: function (c) {
+          return Promise.all([
+            c.count(c.q('#reachNum'), 96500, 1800),
+            c.count(c.q('#tokNum'), 386, 1800),
+            c.count(c.q('#budgetLeft'), 4614, 1800, 5000),
+            c.bar(c.q('#budgetBar'), 92.3, 1800)
+          ]).then(function () { return c.sleep(500); }).then(function () { return c.click(c.q('#repost')); }).then(function () {
+            c.q('#bonus').classList.add('show');
+            return c.count(c.q('#tokNum'), 436, 700, 386);
+          });
+        }
+      },
+      {
+        track: 1, label: 'Run it back or cash out', title: 'Run it back or cash out.',
+        text: 'Put your tokens behind your own campaign, or cash out once you hit the threshold.', url: '/wallet',
+        html: '<div class="app-top"><div><div class="eyebrow">Creator view</div><h3>Your wallet.</h3></div><div class="wallet"><span class="coin">P</span><b>1,360</b></div></div>' +
+          '<div class="wallet-grid"><div class="bal"><div class="eyebrow">Balance</div><div class="num" id="balNum">0</div>' +
+          '<div class="ledger" id="ledger"><div><span>Midnight Drive reach</span><b>+386</b></div><div><span>Share bonus</span><b>+50</b></div><div><span>Earlier campaigns</span><b>+924</b></div></div></div>' +
+          '<div class="actions"><div class="act" id="fundCard"><h5>Fund your own campaign</h5><p>Your song. Your product. Your event.</p><div class="more" id="fundMore">Start a campaign with the tokens you earned.</div></div>' +
+          '<div class="act"><h5>Cash out</h5><p>Unlocks at 2,000 tokens (sample)</p><div class="bar"><i id="cashBar" style="width:0"></i></div></div></div></div>' +
+          '<div class="eyebrow" style="margin-top:6px">The loop</div><div class="loopy"><span class="loop-chip">Create</span><span class="ar">&rarr;</span><span class="loop-chip">Earn</span><span class="ar">&rarr;</span><span class="loop-chip">Launch</span><span class="ar">&rarr;</span><span class="loop-chip">Repeat</span></div>',
+        run: function (c) {
+          return Promise.all([c.count(c.q('#balNum'), 1360, 1500), c.bar(c.q('#cashBar'), 68, 1500)]).then(function () {
+            c.q('#ledger').classList.add('show');
+            return c.sleep(600);
+          }).then(function () { return c.click(c.q('#fundCard')); }).then(function () {
+            c.q('#fundCard').classList.add('sel');
+            c.q('#fundMore').classList.add('show');
+            var chips = c.qa('.loop-chip');
+            return chips.reduce(function (p, ch) {
+              return p.then(function () { ch.classList.add('hot'); return c.sleep(450); });
+            }, Promise.resolve());
+          });
+        }
+      },
+      {
+        track: 2, label: 'The back end', title: 'Watch the numbers move.',
+        text: 'The campaign dashboard tracks reach, creators, posts and budget in real time.', url: '/reports/midnight-drive',
+        html: '<div class="app-top"><div><div class="eyebrow">Report</div><h3>Midnight Drive.</h3></div><div class="live"><i></i>Live &middot; Day 4</div></div>' +
+          '<div class="kpis"><div class="kpi"><small>Total reach</small><div class="num" id="kReach">0</div><div class="sub">across all posts</div></div>' +
+          '<div class="kpi"><small>Creators</small><div class="num" id="kCreators">0</div><div class="sub">accepted so far</div></div>' +
+          '<div class="kpi"><small>Posts</small><div class="num" id="kPosts">0</div><div class="sub">verified live</div></div>' +
+          '<div class="kpi"><small>Budget used</small><div class="num"><span id="kUsed">0</span>%</div><div class="bar"><i id="usedBar"></i></div></div></div>' +
+          '<div class="chart"><small>Reach over time</small><svg viewBox="0 0 600 200" preserveAspectRatio="none"><defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D09543" stop-opacity=".45"/><stop offset="1" stop-color="#D09543" stop-opacity="0"/></linearGradient></defs>' +
+          '<path id="chartArea" d="M0,182 C60,178 100,166 160,150 S260,118 320,96 S440,58 520,34 L600,20 L600,200 L0,200 Z"/>' +
+          '<path id="chartLine" pathLength="1" d="M0,182 C60,178 100,166 160,150 S260,118 320,96 S440,58 520,34 L600,20"/></svg>' +
+          '<div class="xl"><span>Day 1</span><span>Day 2</span><span>Day 3</span><span>Day 4</span></div></div>',
+        run: function (c) {
+          return Promise.all([
+            c.count(c.q('#kReach'), 775000, 1600), c.count(c.q('#kCreators'), 31, 1600), c.count(c.q('#kPosts'), 44, 1600),
+            c.count(c.q('#kUsed'), 62, 1600), c.bar(c.q('#usedBar'), 62, 1600)
+          ]).then(function () {
+            c.q('#chartLine').classList.add('draw');
+            c.q('#chartArea').classList.add('show');
+            return c.sleep(1800);
+          });
+        }
+      },
+      {
+        track: 2, label: 'Who is winning', title: 'Reach decides. Not followers.',
+        text: 'The leaderboard ranks creators by what their posts earned, not by page size.', url: '/reports/midnight-drive/creators',
+        html: '<div class="app-top"><div><div class="eyebrow">Report &middot; Top 5 of 31 creators</div><h3>Top creators.</h3></div><div class="live"><i></i>Live</div></div>' +
+          '<div class="lb"><div class="lb-head"><span>#</span><span>Creator</span><span>Followers</span><span>Reach</span><span style="text-align:right">Tokens</span></div>' + lbRows + '</div>' +
+          '<div class="callout" id="callout"><em>Smallest page.</em> Biggest reach.</div>',
+        run: function (c) {
+          return c.qa('.lb-row').reduce(function (p, row) {
+            return p.then(function () { row.classList.add('in'); return c.sleep(300); });
+          }, Promise.resolve()).then(function () { return c.sleep(500); }).then(function () { c.q('#callout').classList.add('show'); });
+        }
+      },
+      {
+        track: 2, label: 'Campaign done', title: 'Campaign done. Report ready.',
+        text: 'When the budget is gone, the campaign closes and the full report is one tap away.', url: '/reports/midnight-drive/final',
+        html: '<div class="app-top"><div><div class="eyebrow">Final report</div><h3>Midnight Drive.</h3></div><span class="done-badge">&#10003; Campaign complete</span></div>' +
+          '<div class="kpis"><div class="kpi"><small>Total reach</small><div class="num" id="fReach">0</div></div>' +
+          '<div class="kpi"><small>Creators</small><div class="num" id="fCreators">0</div></div>' +
+          '<div class="kpi"><small>Posts</small><div class="num" id="fPosts">0</div></div>' +
+          '<div class="kpi"><small>Tokens paid out</small><div class="num" id="fPaid">0</div><div class="sub">of 5,000</div></div></div>' +
+          '<div class="split"><div class="chart"><small>Where the reach came from</small>' +
+          '<div class="plat"><span>TikTok</span><div class="bar"><i id="pTTb"></i></div><span>58%</span></div>' +
+          '<div class="plat"><span>Reels</span><div class="bar"><i id="pIGb"></i></div><span>29%</span></div>' +
+          '<div class="plat"><span>Shorts</span><div class="bar"><i id="pYTb"></i></div><span>13%</span></div></div>' +
+          '<div class="chart" style="display:flex;flex-direction:column;justify-content:space-between;gap:14px"><div><small>Export</small><p style="margin-top:8px;color:#bdb7a8;font-size:14px">Every post, every creator, every token. Ready to share with your team or label.</p></div><span class="btn-ui" id="exportBtn" style="align-self:flex-start">Download report (PDF)</span></div></div>' +
+          '<div class="toast" id="toast">Report exported. Midnight Drive.pdf</div>',
+        run: function (c) {
+          return Promise.all([
+            c.count(c.q('#fReach'), 1240000, 1700), c.count(c.q('#fCreators'), 46, 1700), c.count(c.q('#fPosts'), 71, 1700), c.count(c.q('#fPaid'), 5000, 1700),
+            c.bar(c.q('#pTTb'), 58, 1500), c.bar(c.q('#pIGb'), 29, 1500), c.bar(c.q('#pYTb'), 13, 1500)
+          ]).then(function () { return c.sleep(400); }).then(function () { return c.click(c.q('#exportBtn')); }).then(function () { c.q('#toast').classList.add('show'); });
+        }
+      }
+    ];
+
+    var TRACKS = [
+      { n: '01', name: 'Set the campaign', sub: 'For artists, brands and event hosts' },
+      { n: '02', name: 'Accept and create', sub: 'For creators' },
+      { n: '03', name: 'The reports', sub: 'The back end' }
+    ];
+
+    function buildRail() {
+      railEl.innerHTML = TRACKS.map(function (t, ti) {
+        var lis = STEPS.map(function (s, si) { return s.track === ti ? '<li data-s="' + si + '">' + s.label + '</li>' : ''; }).join('');
+        return '<div class="track" data-t="' + ti + '"><div class="n">' + t.n + '</div><h4>' + t.name + '</h4><small>' + t.sub + '</small><ol>' + lis + '</ol></div>';
+      }).join('');
+      Array.prototype.forEach.call(railEl.querySelectorAll('.track'), function (el) {
+        el.addEventListener('click', function () {
+          var ti = +el.getAttribute('data-t');
+          var first = STEPS.findIndex(function (s) { return s.track === ti; });
+          showStep(first);
+        });
+      });
+      dotsEl.innerHTML = STEPS.map(function (s, i) { return '<button aria-label="Step ' + (i + 1) + '" data-i="' + i + '"></button>'; }).join('');
+      Array.prototype.forEach.call(dotsEl.querySelectorAll('button'), function (b) {
+        b.addEventListener('click', function () { showStep(+b.getAttribute('data-i')); });
+      });
+    }
+
+    function updateUI() {
+      var cur = step < 0 ? null : STEPS[step];
+      Array.prototype.forEach.call(railEl.querySelectorAll('.track'), function (el) {
+        var ti = +el.getAttribute('data-t');
+        el.classList.toggle('on', !!cur && cur.track === ti);
+        Array.prototype.forEach.call(el.querySelectorAll('li'), function (li) {
+          var si = +li.getAttribute('data-s');
+          li.classList.toggle('done', si < step);
+          li.classList.toggle('cur', si === step);
+        });
+      });
+      Array.prototype.forEach.call(dotsEl.querySelectorAll('button'), function (b) {
+        var i = +b.getAttribute('data-i');
+        b.classList.toggle('done', i < step);
+        b.classList.toggle('on', i === step);
+      });
+      var lab = document.getElementById('capLab'), title = document.getElementById('capTitle'), text = document.getElementById('capText');
+      if (!cur) {
+        lab.textContent = 'Ready'; title.textContent = 'Hit the arrow.'; text.textContent = 'Each tap plays the next part of the workflow.';
+      } else {
+        lab.textContent = 'Step ' + (step + 1) + ' of ' + STEPS.length + ' · ' + TRACKS[cur.track].name;
+        title.textContent = cur.title; text.textContent = cur.text;
+      }
+      nextBtn.classList.toggle('hint', step < 0);
+      nextBtn.setAttribute('aria-label', step === STEPS.length - 1 ? 'Replay' : 'Next step');
+      nextBtn.innerHTML = step === STEPS.length - 1
+        ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5"/></svg>'
+        : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+      document.getElementById('endcta').classList.toggle('show', step === STEPS.length - 1);
+      prevBtn.style.visibility = step < 0 ? 'hidden' : 'visible';
+    }
+
+    function resetCursor() {
+      cursor.style.transition = 'none';
+      cursor.style.opacity = 0;
+      var f = frameEl.getBoundingClientRect();
+      cursor.style.transform = 'translate(' + (f.width * 0.78) + 'px,' + (f.height * 0.9) + 'px)';
+      void cursor.offsetWidth;
+      cursor.style.transition = '';
+    }
+
+    function showStep(i) {
+      clearTimeout(autoTimer);
+      runId++;
+      var id = runId;
+      step = i;
+      resetCursor();
+      var view = i < 0 ? INTRO : STEPS[i];
+      appEl.innerHTML = '<div class="view">' + view.html + '</div>';
+      urlEl.textContent = view.url;
+      updateUI();
+      if (i >= 0) {
+        view.run(makeCtx(id)).then(function () {
+          cursor.style.opacity = 0;
+          if (id === runId && auto) {
+            autoTimer = setTimeout(function () { if (step < STEPS.length - 1) go(1); else setAuto(false); }, 2400);
+          }
+        }).catch(function (e) { if (e !== 'cancel') console.error(e); });
+      }
+    }
+
+    function go(dir) {
+      if (dir > 0) {
+        if (step === STEPS.length - 1) showStep(0); else showStep(step + 1);
+      } else {
+        showStep(step <= 0 ? -1 : step - 1);
+      }
+    }
+
+    function setAuto(on) {
+      auto = on;
+      autoBtn.classList.toggle('on', on);
+      autoBtn.textContent = on ? 'Auto play: on' : 'Auto play';
+      clearTimeout(autoTimer);
+      if (on && step < 0) go(1);
+    }
+
+    nextBtn.addEventListener('click', function () { go(1); });
+    prevBtn.addEventListener('click', function () { go(-1); });
+    autoBtn.addEventListener('click', function () { setAuto(!auto); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+    });
+
+    buildRail();
+    var startAt = INSTANT && params.get('step') != null ? parseInt(params.get('step'), 10) : -1;
+    showStep(startAt);
+  })();
+  </script>
+</body>
+</html>
