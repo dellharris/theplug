@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback | THE PLUG | Idu House</title>
+  <meta name="description" content="Two minutes. Tell us what you thought of THE PLUG info session. Your answers shape what we build before launch.">
+  <meta property="og:site_name" content="Idu House">
+  <meta property="og:title" content="Feedback | THE PLUG | Idu House">
+  <meta property="og:description" content="Two minutes. Your answers shape what we build before launch.">
+  <meta property="og:image" content="../plug-hero-2.jpg?v=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    :root { --black:#000; --panel:#0b0b0b; --panel2:#121212; --gold:#D09543; --gold-hot:#E3A957; --cream:#F7F2E4; --dark:#1C1C1C; --muted:#8f8a7c; --line:rgba(247,242,228,.16); --serif:'Instrument Serif',Georgia,serif; --sans:'Helvetica Neue',Helvetica,Arial,sans-serif; }
+    body { font-family:var(--sans); background:var(--black); color:var(--cream); line-height:1.55; overflow-x:hidden; -webkit-font-smoothing:antialiased; }
+    a { color:inherit; }
+    .wrap { max-width:1240px; margin:0 auto; padding:0 28px; }
+
+    .btn { display:inline-block; background:var(--gold); color:var(--dark); font-family:var(--sans); font-weight:700; font-size:13px; letter-spacing:.1em; text-transform:uppercase; text-decoration:none; padding:17px 32px; border:1px solid var(--gold); cursor:pointer; transition:transform .12s, box-shadow .12s, background .12s; }
+    .btn:hover { transform:translate(-3px,-3px); box-shadow:5px 5px 0 0 var(--cream); background:var(--gold-hot); }
+    .btn:disabled { opacity:.6; cursor:wait; }
+    .btn.small { padding:12px 22px; font-size:12px; }
+    .btn.dark { background:var(--dark); color:var(--cream); border-color:var(--dark); }
+    .btn.dark:hover { box-shadow:5px 5px 0 0 var(--cream); background:var(--dark); }
+
+    .site-header { position:relative; z-index:20; }
+    .nav { display:flex; align-items:center; justify-content:space-between; gap:24px; padding:20px 0; }
+    .nav .logo img { height:64px; width:auto; display:block; }
+    .nav-links { display:flex; align-items:center; gap:30px; }
+    .nav-links a.link { font-size:14px; font-weight:500; letter-spacing:.02em; text-decoration:none; position:relative; padding:4px 0; }
+    .nav-links a.link::after { content:""; position:absolute; left:0; right:0; bottom:0; height:1px; background:var(--gold); transform:scaleX(0); transform-origin:left; transition:transform .2s; }
+    .nav-links a.link:hover { color:var(--gold); }
+    .nav-links a.link:hover::after { transform:scaleX(1); }
+    .burger { display:none; background:none; border:1px solid rgba(247,242,228,.45); color:var(--cream); width:44px; height:44px; font-size:18px; cursor:pointer; }
+
+    .page-hero { position:relative; padding:36px 0 40px; isolation:isolate; overflow:hidden; }
+    .page-hero::before { content:""; position:absolute; inset:0; z-index:-2; background:url("../plug-hero-2.jpg?v=1") 50% 30%/cover no-repeat; opacity:.32; }
+    .page-hero::after { content:""; position:absolute; inset:0; z-index:-1; background:linear-gradient(to bottom,#000 0%,rgba(0,0,0,.35) 40%,#000 100%),linear-gradient(to right,rgba(0,0,0,.85),rgba(0,0,0,.2)); }
+    .pill { display:inline-flex; align-items:center; gap:10px; font-size:12px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; background:rgba(0,0,0,.5); border:1px solid rgba(247,242,228,.25); padding:9px 16px; margin-bottom:18px; }
+    .dot { width:8px; height:8px; border-radius:50%; background:var(--gold); animation:pulse 1.8s infinite; }
+    @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(208,149,67,.75)} 70%{box-shadow:0 0 0 12px rgba(208,149,67,0)} 100%{box-shadow:0 0 0 0 rgba(208,149,67,0)} }
+    .page-hero h1 { font-family:var(--serif); font-weight:400; font-size:clamp(60px,10vw,138px); line-height:.82; letter-spacing:-.045em; }
+    .page-hero h1 .out { font-style:italic; color:transparent; -webkit-text-stroke:1.5px var(--cream); }
+    .page-hero h1 em { color:var(--gold); font-style:italic; }
+    .page-hero p { font-size:18px; color:#d9d3c3; max-width:560px; margin-top:22px; }
+
+    .form-wrap { max-width:820px; margin:0 auto; padding:10px 0 90px; }
+    .q { border:1px solid var(--line); background:var(--panel2); padding:24px 26px; margin-bottom:14px; }
+    .q h3 { font-family:var(--serif); font-weight:400; font-size:clamp(26px,3.2vw,34px); line-height:1.02; letter-spacing:-.02em; margin-bottom:6px; }
+    .q .hint { font-size:14px; color:var(--muted); margin-bottom:14px; }
+    .num { font-size:11px; font-weight:700; letter-spacing:.18em; color:var(--gold); text-transform:uppercase; margin-bottom:8px; display:block; }
+
+    .opts { display:flex; flex-wrap:wrap; gap:10px; }
+    .opt input { position:absolute; opacity:0; pointer-events:none; }
+    .opt span { display:inline-block; border:1px solid var(--line); background:#070707; padding:12px 18px; font-size:14px; font-weight:700; letter-spacing:.04em; cursor:pointer; transition:all .15s; user-select:none; }
+    .opt span:hover { border-color:rgba(208,149,67,.7); }
+    .opt input:checked + span { background:var(--gold); border-color:var(--gold); color:var(--dark); }
+    .opt input:focus-visible + span { outline:2px solid var(--cream); outline-offset:2px; }
+    .scale .opt span { min-width:58px; text-align:center; font-size:18px; padding:14px 0; }
+    .scale-labels { display:flex; justify-content:space-between; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-top:10px; }
+
+    input[type=text], input[type=email], textarea { width:100%; background:#000; border:1px solid rgba(247,242,228,.28); color:var(--cream); font-family:var(--sans); font-size:17px; padding:15px 17px; border-radius:0; }
+    textarea { min-height:110px; resize:vertical; }
+    input:focus, textarea:focus { outline:2px solid var(--gold); outline-offset:0; }
+    .two { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    label.l { display:block; font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#9a9484; margin-bottom:7px; }
+    .hp { position:absolute; left:-9999px; height:0; overflow:hidden; }
+
+    .submit-row { display:flex; align-items:center; gap:18px; flex-wrap:wrap; margin-top:20px; }
+    .fine { font-size:13px; color:#7d7767; }
+    .status { margin-top:16px; font-size:15px; display:none; padding:14px 16px; border:1px solid rgba(247,242,228,.25); }
+    .status.err { display:block; color:#ff9d8a; border-color:#6b3328; }
+
+    .thanks { display:none; border:1px solid var(--gold); background:#0d0a05; padding:48px 36px; text-align:center; }
+    .thanks.show { display:block; }
+    .thanks h2 { font-family:var(--serif); font-weight:400; font-size:clamp(48px,7vw,86px); line-height:.9; letter-spacing:-.04em; }
+    .thanks h2 em { color:var(--gold); }
+    .thanks p { color:#d9d3c3; font-size:18px; max-width:520px; margin:16px auto 26px; }
+    .thanks .row { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+    .btn.ghost { background:transparent; color:var(--cream); border-color:rgba(247,242,228,.4); }
+    .btn.ghost:hover { background:var(--cream); color:var(--dark); box-shadow:5px 5px 0 0 var(--gold); }
+
+    .site-footer { background:var(--gold); color:var(--dark); padding:84px 0 34px; }
+    .foot-grid { display:grid; grid-template-columns:1.3fr 1fr; gap:56px; align-items:start; }
+    .foot-big { font-family:var(--serif); font-weight:400; font-size:clamp(44px,6vw,84px); line-height:.95; letter-spacing:-.035em; }
+    .foot-big a { text-decoration:none; border-bottom:2px solid var(--dark); }
+    .foot-copy { font-size:18px; letter-spacing:-.01em; margin:26px 0 18px; max-width:520px; }
+    .foot-go { font-family:var(--serif); font-style:italic; font-size:clamp(34px,4vw,52px); letter-spacing:-.03em; line-height:1; }
+    .foot-contact h4 { font-family:var(--serif); font-weight:400; font-size:44px; letter-spacing:-.03em; line-height:1; margin-bottom:8px; }
+    .foot-contact a.mail { font-size:19px; display:inline-block; margin-bottom:28px; text-decoration:underline; text-underline-offset:4px; }
+    .socials { display:flex; gap:10px; margin-top:30px; }
+    .socials a { width:40px; height:40px; border:1px solid var(--dark); border-radius:50%; display:flex; align-items:center; justify-content:center; transition:background .15s,color .15s; }
+    .socials a:hover { background:var(--dark); color:var(--gold); }
+    .socials svg { width:18px; height:18px; }
+    .foot-bottom { margin-top:70px; padding-top:22px; border-top:1px solid rgba(28,28,28,.35); display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; font-size:13px; }
+    .foot-bottom .cities { font-weight:700; letter-spacing:.14em; text-transform:uppercase; font-size:12px; }
+
+    @media (prefers-reduced-motion: reduce) { .dot { animation:none; } }
+    @media (max-width:860px) {
+      .nav-links { display:none; position:absolute; top:90px; left:20px; right:20px; flex-direction:column; align-items:flex-start; gap:18px; background:rgba(0,0,0,.95); border:1px solid rgba(247,242,228,.25); padding:24px; z-index:50; }
+      .nav-links.open { display:flex; }
+      .burger { display:block; } .nav-cta { display:none; }
+      .two { grid-template-columns:1fr; }
+      .q { padding:20px 16px; }
+      .scale .opt span { min-width:52px; }
+      .foot-grid { grid-template-columns:1fr; gap:40px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="wrap">
+      <div class="nav">
+        <a class="logo" href="https://www.iduhouse.com" aria-label="Idu House home"><img src="../idu-house-logo.png" alt="Idu House"></a>
+        <nav class="nav-links" id="nav-links">
+          <a class="link" href="https://www.iduhouse.com">Home</a>
+          <a class="link" href="https://mailbox.iduhouse.com">Mailbox</a>
+          <a class="link" href="https://www.iduhouse.com/4thspace">4th Space</a>
+          <a class="link" href="https://lfls.iduhouse.com/">LFLS</a>
+          <a class="link" href="https://www.iduhouse.com/general-contact">Contact</a>
+          <a class="btn small nav-cta" href="../">The Plug</a>
+        </nav>
+        <button class="burger" id="burger" aria-label="Menu" aria-expanded="false">&#9776;</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="pill"><span class="dot"></span>Info session feedback</div>
+      <h1><span class="out">Tell us</span><br><em>what you think.</em></h1>
+      <p>Two minutes. Your answers shape what we build before launch, and we read every one.</p>
+    </div>
+  </section>
+
+  <main class="wrap">
+    <div class="form-wrap">
+
+      <form id="fb-form" novalidate>
+        <div class="q">
+          <span class="num">01</span>
+          <h3>Did you join the live info session?</h3>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="attended" value="Yes"><span>Yes, I was there</span></label>
+            <label class="opt"><input type="radio" name="attended" value="No"><span>No, I watched the demo</span></label>
+          </div>
+        </div>
+
+        <div class="q">
+          <span class="num">02</span>
+          <h3>What best describes you?</h3>
+          <div class="hint">Pick all that fit.</div>
+          <div class="opts">
+            <label class="opt"><input type="checkbox" name="role" value="Content creator"><span>Content creator</span></label>
+            <label class="opt"><input type="checkbox" name="role" value="Artist or musician"><span>Artist or musician</span></label>
+            <label class="opt"><input type="checkbox" name="role" value="Curator or DJ"><span>Curator or DJ</span></label>
+            <label class="opt"><input type="checkbox" name="role" value="Brand or business"><span>Brand or business</span></label>
+            <label class="opt"><input type="checkbox" name="role" value="Event host"><span>Event host</span></label>
+            <label class="opt"><input type="checkbox" name="role" value="Something else"><span>Something else</span></label>
+          </div>
+        </div>
+
+        <div class="q scale">
+          <span class="num">03</span>
+          <h3>How clear was the idea?</h3>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="clarity" value="1"><span>1</span></label>
+            <label class="opt"><input type="radio" name="clarity" value="2"><span>2</span></label>
+            <label class="opt"><input type="radio" name="clarity" value="3"><span>3</span></label>
+            <label class="opt"><input type="radio" name="clarity" value="4"><span>4</span></label>
+            <label class="opt"><input type="radio" name="clarity" value="5"><span>5</span></label>
+          </div>
+          <div class="scale-labels"><span>Confusing</span><span>Crystal clear</span></div>
+        </div>
+
+        <div class="q scale">
+          <span class="num">04</span>
+          <h3>How excited are you to be part of it?</h3>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="excitement" value="1"><span>1</span></label>
+            <label class="opt"><input type="radio" name="excitement" value="2"><span>2</span></label>
+            <label class="opt"><input type="radio" name="excitement" value="3"><span>3</span></label>
+            <label class="opt"><input type="radio" name="excitement" value="4"><span>4</span></label>
+            <label class="opt"><input type="radio" name="excitement" value="5"><span>5</span></label>
+          </div>
+          <div class="scale-labels"><span>Not really</span><span>Sign me up</span></div>
+        </div>
+
+        <div class="q">
+          <span class="num">05</span>
+          <h3>What stood out most?</h3>
+          <div class="hint">Pick all that apply.</div>
+          <div class="opts">
+            <label class="opt"><input type="checkbox" name="standout" value="Setting up campaigns"><span>Setting up campaigns</span></label>
+            <label class="opt"><input type="checkbox" name="standout" value="Accepting and creating"><span>Accepting and creating</span></label>
+            <label class="opt"><input type="checkbox" name="standout" value="Reach, not followers"><span>Reach, not followers</span></label>
+            <label class="opt"><input type="checkbox" name="standout" value="Earning tokens"><span>Earning tokens</span></label>
+            <label class="opt"><input type="checkbox" name="standout" value="The reports"><span>The reports</span></label>
+            <label class="opt"><input type="checkbox" name="standout" value="Creators backing creators"><span>Creators backing creators</span></label>
+          </div>
+        </div>
+
+        <div class="q">
+          <span class="num">06</span>
+          <h3>What would you create or launch first?</h3>
+          <div class="hint">A song, a product, an event, content for someone else's campaign. Anything.</div>
+          <input type="text" name="first" maxlength="500">
+        </div>
+
+        <div class="q">
+          <span class="num">07</span>
+          <h3>What questions do you still have?</h3>
+          <textarea name="questions" maxlength="2000"></textarea>
+        </div>
+
+        <div class="q">
+          <span class="num">08</span>
+          <h3>Want early access when the beta opens?</h3>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="beta" value="Yes"><span>Yes, count me in</span></label>
+            <label class="opt"><input type="radio" name="beta" value="Maybe"><span>Maybe, tell me more</span></label>
+            <label class="opt"><input type="radio" name="beta" value="Not now"><span>Not right now</span></label>
+          </div>
+        </div>
+
+        <div class="q">
+          <span class="num">09</span>
+          <h3>Where can we reach you?</h3>
+          <div class="hint">Optional, but we need an email to share beta updates with you.</div>
+          <div class="two">
+            <div><label class="l" for="name">Name</label><input type="text" id="name" name="name" autocomplete="name" maxlength="100"></div>
+            <div><label class="l" for="email">Email</label><input type="email" id="email" name="email" autocomplete="email" maxlength="200"></div>
+          </div>
+        </div>
+
+        <div class="hp" aria-hidden="true"><label for="website">Leave this field empty</label><input type="text" id="website" name="website" tabindex="-1" autocomplete="off"></div>
+
+        <div class="submit-row">
+          <button class="btn" type="submit" id="submit-btn">Send feedback</button>
+          <span class="fine">Takes about two minutes. No spam, ever.</span>
+        </div>
+        <div class="status" id="status" role="status" aria-live="polite"></div>
+      </form>
+
+      <div class="thanks" id="thanks">
+        <h2>Thank you. <em>For real.</em></h2>
+        <p>We read every response and it shapes what we build before launch. Keep an eye on your inbox for the next info session and beta news.</p>
+        <div class="row">
+          <a class="btn" href="../#rsvp">Get on the list</a>
+          <a class="btn ghost" href="../demo/">Watch the demo again</a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <div class="foot-big"><a href="https://www.iduhouse.com/manifesto">Read The Manifesto</a></div>
+          <p class="foot-copy">Whether you're an artist ready to move, a collaborator looking for the right room, or an organization that wants to build something real, the door is open.</p>
+          <div class="foot-go">Let's get to work.</div>
+        </div>
+        <div class="foot-contact">
+          <h4>Join the movement.</h4>
+          <h4 style="font-size:30px;margin-top:22px;margin-bottom:6px">Email</h4>
+          <a class="mail" href="mailto:info@iduhouse.com">info@iduhouse.com</a><br>
+          <a class="btn dark" href="https://www.iduhouse.com/services-home" target="_blank" rel="noopener">Member Login</a>
+          <div class="socials">
+            <a href="http://instagram.com/iduhouse" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+            <a href="https://www.tiktok.com/@iduhouse" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 3c.3 2.3 1.7 3.8 4 4v3.2c-1.5 0-2.9-.5-4-1.3V15a6 6 0 1 1-6-6c.3 0 .7 0 1 .1v3.3a2.8 2.8 0 1 0 1.8 2.6V3z"/></svg></a>
+            <a href="https://www.youtube.com/@IduHouse" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="5" width="19" height="14" rx="4"/><path d="M10 9l5 3-5 3z" fill="currentColor" stroke="none"/></svg></a>
+            <a href="https://www.linkedin.com/company/idu-house/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="9" width="3.5" height="12"/><circle cx="4.75" cy="5" r="2"/><path d="M10 9h3.3v1.7c.6-1.1 1.9-2 3.7-2 3.3 0 4 2.1 4 4.9V21h-3.5v-6.2c0-1.5-.1-2.9-1.9-2.9s-2.1 1.4-2.1 2.8V21H10z"/></svg></a>
+          </div>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <span>&copy; 2026 Idu House</span>
+        <span class="cities">Oakland &middot; Columbus &middot; Indianapolis &middot; Detroit &middot; ATL &middot; DC</span>
+        <span>theplug.iduhouse.com</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    var ENDPOINT = "https://script.google.com/macros/s/AKfycbwRwfhxAfGYJ8yMWu-pFUELbmUCcTWnAKIfxMjopil-UsFvhJgMTjrEtCScDhXSfhqe/exec";
+
+    var burger = document.getElementById('burger'), links = document.getElementById('nav-links');
+    burger.addEventListener('click', function () {
+      var open = links.classList.toggle('open');
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+
+    var form = document.getElementById('fb-form'), btn = document.getElementById('submit-btn');
+    var statusEl = document.getElementById('status'), thanks = document.getElementById('thanks');
+
+    function vals(name) {
+      return Array.prototype.map.call(form.querySelectorAll('input[name="' + name + '"]:checked'), function (i) { return i.value; }).join(', ');
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (form.website.value) return;
+
+      var email = form.email.value.trim();
+      if (email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+        statusEl.className = 'status err'; statusEl.textContent = 'That email does not look right. Fix it or leave it blank.'; return;
+      }
+      var has = vals('clarity') || vals('excitement') || vals('standout') || vals('role') || vals('beta') || form.first.value.trim() || form.questions.value.trim();
+      if (!has) {
+        statusEl.className = 'status err'; statusEl.textContent = 'Answer at least one question before sending.'; return;
+      }
+
+      btn.disabled = true; statusEl.className = 'status';
+      var body = new URLSearchParams({
+        form: 'feedback',
+        attended: vals('attended'), role: vals('role'), clarity: vals('clarity'), excitement: vals('excitement'),
+        standout: vals('standout'), first: form.first.value.trim(), questions: form.questions.value.trim(),
+        beta: vals('beta'), name: form.name.value.trim(), email: email
+      });
+
+      fetch(ENDPOINT, { method: 'POST', mode: 'no-cors', body: body }).then(function () {
+        form.style.display = 'none'; thanks.classList.add('show');
+        window.scrollTo({ top: thanks.getBoundingClientRect().top + window.scrollY - 120, behavior: 'smooth' });
+      }).catch(function () {
+        statusEl.className = 'status err'; statusEl.textContent = 'Something went wrong. Please try again.';
+        btn.disabled = false;
+      });
+    });
+  </script>
+</body>
+</html>

@@ -5,8 +5,14 @@ var EVENT_END = "20261015T020000Z";
 var EVENT_PLACE = "IDU House Discord";
 var EVENT_DETAILS = "The info session for THE PLUG, the new IDU House creator network. Wednesday at 9 PM ET on the IDU House Discord.";
 
+var SHEET_ID = "1-isMv3HltjEWozb6YVZ6Q8A2w81CVbSY9oUZG0n7ef0";
+
+function ss_() {
+  return SpreadsheetApp.openById(SHEET_ID);
+}
+
 function tab_() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = ss_();
   var sh = ss.getSheetByName(TAB) || ss.insertSheet(TAB);
   if (sh.getLastRow() === 0) sh.appendRow(["Timestamp", "Name", "Email", "Status"]);
   return sh;
@@ -18,6 +24,7 @@ function safe_(s) {
 
 function doPost(e) {
   var p = e.parameter || {};
+  if (p.form === "feedback") return saveFeedback_(p);
   var name = String(p.name || "").trim().slice(0, 100);
   var email = String(p.email || "").trim().toLowerCase().slice(0, 200);
   if (p.website || !name || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
@@ -31,6 +38,18 @@ function doPost(e) {
 }
 
 function doGet() {
+  return ContentService.createTextOutput("ok");
+}
+
+function saveFeedback_(p) {
+  if (p.website) return ContentService.createTextOutput("ignored");
+  var clip = function (v, n) { return safe_(String(v || "").trim().slice(0, n)); };
+  var ss = ss_();
+  var sh = ss.getSheetByName("Feedback") || ss.insertSheet("Feedback");
+  if (sh.getLastRow() === 0) {
+    sh.appendRow(["Timestamp", "Name", "Email", "I am a", "Clarity (1-5)", "Excitement (1-5)", "Stood out", "Questions", "First campaign or content", "Beta access", "Attended"]);
+  }
+  sh.appendRow([new Date(), clip(p.name, 100), clip(p.email, 200), clip(p.role, 200), clip(p.clarity, 5), clip(p.excitement, 5), clip(p.standout, 300), clip(p.questions, 2000), clip(p.first, 500), clip(p.beta, 50), clip(p.attended, 20)]);
   return ContentService.createTextOutput("ok");
 }
 
@@ -76,5 +95,5 @@ function sendConfirmations() {
     sh.getRange(i + 2, 4).setValue("sent");
     sent++;
   }
-  SpreadsheetApp.getActiveSpreadsheet().toast("Sent " + sent + " confirmation(s).");
+  ss_().toast("Sent " + sent + " confirmation(s).");
 }
