@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>THE PLUG | Idu House</title>
-  <meta name="description" content="Post. Get seen. Get paid. THE PLUG is coming from Idu House. Pull up to the info session, Wednesday October 14 at 9 PM ET on the Idu House Discord.">
+  <meta name="description" content="Post. Get seen. Get paid. THE PLUG is coming from Idu House. Pull up to the info session, Wednesday November 4 at 9 PM ET on the Idu House Discord.">
   <meta property="og:site_name" content="Idu House">
   <meta property="og:title" content="THE PLUG | Idu House">
-  <meta property="og:description" content="Post. Get seen. Get paid. Info session Wednesday October 14, 9 PM ET.">
+  <meta property="og:description" content="Post. Get seen. Get paid. Info session Wednesday November 4, 9 PM ET.">
   <meta property="og:image" content="plug-hero-2.jpg?v=1">
   <link rel="preload" as="image" href="plug-hero-2.jpg?v=1">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -232,6 +232,42 @@
     .d1 { animation-delay: 0.1s; } .d2 { animation-delay: 0.25s; } .d3 { animation-delay: 0.4s; } .d4 { animation-delay: 0.55s; }
     @keyframes rise { from { opacity: 0; transform: translateY(26px); } }
 
+    /* DEMO VIDEO */
+    .demo-hero { background: #000; padding: 104px 0 0; }
+    .demo-frame { position: relative; width: min(100%, 1600px); margin: 0 auto; aspect-ratio: 16 / 9; background: #000; }
+    .demo-frame video { display: block; width: 100%; height: 100%; object-fit: cover; background: #000; }
+    .demo-sound {
+      position: absolute;
+      left: clamp(14px, 3vw, 40px);
+      bottom: clamp(14px, 3vw, 40px);
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      font-size: clamp(13px, 1.3vw, 16px);
+      padding: 20px 34px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, var(--gold-hot), var(--gold));
+      box-shadow: 0 0 0 0 rgba(208, 149, 67, 0.7), 0 0 34px rgba(208, 149, 67, 0.55), 0 10px 30px rgba(0, 0, 0, 0.6);
+      animation: soundglow 2s ease-out infinite;
+    }
+    .demo-sound:hover { transform: translateY(-2px) scale(1.04); box-shadow: 0 0 0 0 rgba(208, 149, 67, 0.7), 0 0 52px rgba(227, 169, 87, 0.85), 0 12px 34px rgba(0, 0, 0, 0.6); background: linear-gradient(180deg, #f0bb6c, var(--gold-hot)); }
+    .demo-sound:active { transform: scale(0.98); }
+    @keyframes soundglow {
+      0% { box-shadow: 0 0 0 0 rgba(208, 149, 67, 0.7), 0 0 34px rgba(208, 149, 67, 0.55), 0 10px 30px rgba(0, 0, 0, 0.6); }
+      70% { box-shadow: 0 0 0 22px rgba(208, 149, 67, 0), 0 0 46px rgba(208, 149, 67, 0.75), 0 10px 30px rgba(0, 0, 0, 0.6); }
+      100% { box-shadow: 0 0 0 0 rgba(208, 149, 67, 0), 0 0 34px rgba(208, 149, 67, 0.55), 0 10px 30px rgba(0, 0, 0, 0.6); }
+    }
+    .demo-sound svg { width: 20px; height: 20px; fill: currentColor; flex: none; }
+    .demo-sound .wave { transform-origin: 14px 12px; animation: wave 1.4s ease-in-out infinite; }
+    @keyframes wave { 0%, 100% { opacity: 0.35; } 50% { opacity: 1; } }
+    .demo-sound[hidden] { display: none; }
+
+    .demo-try { text-align: center; padding: 22px 20px 26px; font-size: 15px; color: #d9d3c3; }
+    .demo-try a { color: var(--gold); font-weight: 700; letter-spacing: 0.04em; text-decoration: none; border-bottom: 1px solid rgba(208, 149, 67, 0.5); padding-bottom: 2px; transition: color 0.15s ease, border-color 0.15s ease; }
+    .demo-try a:hover { color: var(--gold-hot); border-color: var(--gold-hot); }
+    .demo-try a span { display: inline-block; transition: transform 0.15s ease; }
+    .demo-try a:hover span { transform: translateX(4px); }
+
     /* TEASERS */
     .teasers { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid rgba(247, 242, 228, 0.16); border-bottom: 1px solid rgba(247, 242, 228, 0.16); }
 
@@ -374,11 +410,15 @@
     .foot-bottom .cities { font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; font-size: 12px; }
 
     @media (prefers-reduced-motion: reduce) {
-      .hero-bg, .dot { animation: none; }
+      .hero-bg, .dot, .demo-sound, .demo-sound .wave { animation: none; }
       .rise { animation: none; }
     }
 
     @media (max-width: 860px) {
+      .demo-hero { padding-top: 96px; }
+      .demo-frame { aspect-ratio: auto; }
+      .demo-frame video { aspect-ratio: 16 / 9; height: auto; }
+      .demo-sound { position: static; display: flex; justify-content: center; width: calc(100% - 40px); margin: 16px 20px 20px; }
       .nav-links {
         display: none;
         position: absolute;
@@ -427,6 +467,14 @@
     </div>
   </header>
 
+  <section class="demo-hero" id="demo-video" aria-label="The Plug demo video">
+    <div class="demo-frame">
+      <video id="plug-video" src="the-plug-demo.mp4?v=1" poster="the-plug-demo-poster.jpg?v=1" autoplay muted loop playsinline preload="auto" aria-label="The Plug demo: how a creator campaign works, from setting the campaign to the final report. Sample data."></video>
+      <button class="btn demo-sound" id="demo-sound" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9H3z"/><path class="wave" d="M16.5 12a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg><span>Tap for sound</span></button>
+    </div>
+    <p class="demo-try">Want to click through it yourself? <a href="demo/">Try the clickable demo <span aria-hidden="true">&rarr;</span></a></p>
+  </section>
+
   <section class="hero">
     <div class="hero-bg" role="img" aria-label="Animated creator holding stacks of cash outside a neon storefront reading THE PLUG"></div>
     <div class="sticker rise d4">Creators only</div>
@@ -460,7 +508,7 @@
         <div>
           <h2>Info session.<br><em>Be there.</em></h2>
           <div class="when">
-            <strong>Wednesday, October 14</strong><br>
+            <strong>Wednesday, November 4</strong><br>
             9 PM ET<br>
             Idu House Discord
           </div>
@@ -536,6 +584,28 @@
       burger.setAttribute("aria-expanded", open ? "true" : "false");
     });
     links.addEventListener("click", function (e) { if (e.target.tagName === "A") links.classList.remove("open"); });
+
+    var demo = document.getElementById("plug-video");
+    var demoBtn = document.getElementById("demo-sound");
+    var demoLabel = demoBtn.querySelector("span");
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { demo.removeAttribute("autoplay"); demo.pause(); }
+    demoBtn.addEventListener("click", function () {
+      demo.loop = false;
+      demo.muted = false;
+      demo.controls = true;
+      demo.currentTime = 0;
+      demo.play();
+      demoBtn.hidden = true;
+    });
+    demo.addEventListener("ended", function () {
+      demo.controls = false;
+      demo.muted = true;
+      demo.loop = true;
+      demo.currentTime = 0;
+      demo.play();
+      demoLabel.textContent = "Replay with sound";
+      demoBtn.hidden = false;
+    });
 
     var form = document.getElementById("rsvp-form");
     var statusEl = document.getElementById("status");

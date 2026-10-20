@@ -1,9 +1,9 @@
 var TAB = "RSVPs";
 var EVENT_TITLE = "THE PLUG Info Session (IDU House)";
-var EVENT_START = "20261015T010000Z";
-var EVENT_END = "20261015T020000Z";
+var EVENT_START = "20261105T020000Z";
+var EVENT_END = "20261105T030000Z";
 var EVENT_PLACE = "IDU House Discord";
-var EVENT_DETAILS = "The info session for THE PLUG, the new IDU House creator network. Wednesday at 9 PM ET on the IDU House Discord.";
+var EVENT_DETAILS = "The info session for THE PLUG, the new IDU House creator network. Wednesday, November 4 at 9 PM ET on the IDU House Discord.";
 
 var SHEET_ID = "1-isMv3HltjEWozb6YVZ6Q8A2w81CVbSY9oUZG0n7ef0";
 
@@ -60,7 +60,7 @@ function onOpen() {
 function ics_() {
   return [
     "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//IDU House//The Plug//EN", "CALSCALE:GREGORIAN", "METHOD:PUBLISH",
-    "BEGIN:VEVENT", "UID:plug-cohort-unveil-20261014@iduhouse.com", "DTSTAMP:20261012T000000Z",
+    "BEGIN:VEVENT", "UID:plug-info-session-20261104@iduhouse.com", "DTSTAMP:20261020T000000Z",
     "DTSTART:" + EVENT_START, "DTEND:" + EVENT_END,
     "SUMMARY:" + EVENT_TITLE, "DESCRIPTION:" + EVENT_DETAILS, "LOCATION:" + EVENT_PLACE,
     "END:VEVENT", "END:VCALENDAR"
@@ -86,10 +86,10 @@ function sendConfirmations() {
     if (rows[i][3] !== "pending") continue;
     var name = String(rows[i][1]).replace(/^'/, "");
     var link = googleLink_();
-    var text = "Hi " + name + ",\n\nYou are confirmed for THE PLUG info session, Wednesday October 14 at 9 PM ET on the IDU House Discord.\n\n" +
+    var text = "Hi " + name + ",\n\nYou are confirmed for THE PLUG info session, Wednesday November 4 at 9 PM ET on the IDU House Discord.\n\n" +
       "Add it to your calendar:\nGoogle Calendar: " + link + "\nApple Calendar or Outlook: open the attached plug-info-session.ics file.\n\nSee you there,\nIDU House";
     var safeName = name.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-    var html = "<p>Hi " + safeName + ",</p><p>You are confirmed for <strong>THE PLUG info session</strong>, Wednesday October 14 at 9 PM ET on the IDU House Discord.</p>" +
+    var html = "<p>Hi " + safeName + ",</p><p>You are confirmed for <strong>THE PLUG info session</strong>, Wednesday November 4 at 9 PM ET on the IDU House Discord.</p>" +
       "<p>Add it to your calendar:<br><a href=\"" + link + "\">Add to Google Calendar</a><br>Apple Calendar or Outlook: open the attached <em>plug-info-session.ics</em> file.</p><p>See you there,<br>IDU House</p>";
     MailApp.sendEmail({ to: rows[i][2], subject: "You are confirmed: THE PLUG info session", body: text, htmlBody: html, name: "IDU House", attachments: [ics] });
     sh.getRange(i + 2, 4).setValue("sent");

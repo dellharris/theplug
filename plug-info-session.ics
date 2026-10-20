@@ -4,12 +4,12 @@ PRODID:-//IDU House//The Plug//EN
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
 BEGIN:VEVENT
-UID:plug-cohort-unveil-20261014@iduhouse.com
-DTSTAMP:20261012T000000Z
-DTSTART:20261015T010000Z
-DTEND:20261015T020000Z
+UID:plug-info-session-20261104@iduhouse.com
+DTSTAMP:20261020T000000Z
+DTSTART:20261105T020000Z
+DTEND:20261105T030000Z
 SUMMARY:THE PLUG Info Session (IDU House)
-DESCRIPTION:The info session for THE PLUG, the new IDU House creator network. Wednesday at 9 PM ET on the IDU House Discord.
+DESCRIPTION:The info session for THE PLUG, the new IDU House creator network. Wednesday, November 4 at 9 PM ET on the IDU House Discord.
 LOCATION:IDU House Discord
 END:VEVENT
 END:VCALENDAR
