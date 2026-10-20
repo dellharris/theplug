@@ -587,25 +587,16 @@
 
     var demo = document.getElementById("plug-video");
     var demoBtn = document.getElementById("demo-sound");
-    var demoLabel = demoBtn.querySelector("span");
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { demo.removeAttribute("autoplay"); demo.pause(); }
+    demo.loop = true;
     demoBtn.addEventListener("click", function () {
-      demo.loop = false;
       demo.muted = false;
       demo.controls = true;
       demo.currentTime = 0;
       demo.play();
       demoBtn.hidden = true;
     });
-    demo.addEventListener("ended", function () {
-      demo.controls = false;
-      demo.muted = true;
-      demo.loop = true;
-      demo.currentTime = 0;
-      demo.play();
-      demoLabel.textContent = "Replay with sound";
-      demoBtn.hidden = false;
-    });
+    demo.addEventListener("ended", function () { demo.currentTime = 0; demo.play(); });
 
     var form = document.getElementById("rsvp-form");
     var statusEl = document.getElementById("status");
